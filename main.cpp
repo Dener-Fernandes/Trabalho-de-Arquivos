@@ -1,34 +1,32 @@
-#include "estruturas.h"
+#include "funcoesEntrada.h"
 #include <stdio.h>
 #include <stdlib.h>
 
 int main() {
   tCursosEPesos *cursosEPesos = NULL;
+  tCursosEVagas *cursosEVagas = NULL;
+  tDados *dados = NULL;
+  tAcertos *acertos = NULL;
 
   // Variável que irá manipular o arquivo.
   FILE *arquivo;
-  char nome[MAX];
+  char nome01[MAX], nome02[MAX], nome03[MAX], nome04[MAX];
   int tamanhoArquivo;
   char cursoNome[MAX];
 
-  scanf(" %s", nome);
+  printf("Informe os nomes dos arquivos\n");
+  scanf(" %s", nome01);
+  scanf(" %s", nome02);
+  scanf(" %s", nome03);
+  scanf(" %s", nome04);
 
-  // Abrindo o arquivo em modo de leitura.
-  arquivo = fopen(nome, "r");
+  ler_e_inserir(nome01, nome02, nome03, nome04, cursosEPesos, cursosEVagas,
+                dados, acertos);
 
-  if (!arquivo) {
-    printf("Erro ao abrir o arquivo");
-  } else {
-    fscanf(arquivo, "%d", &tamanhoArquivo);
+  free(cursosEPesos);
+  free(cursosEVagas);
+  free(dados);
+  free(acertos);
 
-    while (feof(arquivo) == 0) {
-      cursosEPesos = (tCursosEPesos *)malloc(sizeof(tCursosEPesos));
-      fscanf(arquivo, "%d %s %d %d %d %d %d", &cursosEPesos->codigo, cursosEPesos->nome,);
-      // printf("CURSO: %s ", cursoNome);
-    }
-  }
-
-  // Fechando o arquivo.
-  fclose(arquivo);
   return 0;
 }
