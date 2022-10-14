@@ -1,11 +1,25 @@
-#define MAX 50
+#define MAX 80
 
 struct tCursosEPesos {
   int codigo;
   char nome[MAX];
   int red, mat, lin, hum, nat;
+  struct tCursosEPesos *prox;
 };
 
 struct tCursosEVagas {
   int codigo, ac, l1, l3, l4, l5, l7, l8, l9, l11, l13, l15;
+  struct tCursosEVagas *prox;
+};
+
+struct tDados {
+  int codigo, qtdInscritos, inscricao, dia, mes, ano;
+  char nome[MAX];
+  char vaga[4];
+  struct tDados *prox;
+};
+
+struct tAcertos {
+  int qtdCandidatos, inscricao, v_lin, v_mat, v_nat, v_hum, red;
+  struct tAcertos *prox;
 };
