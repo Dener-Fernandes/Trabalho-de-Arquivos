@@ -20,6 +20,15 @@ struct tDados {
 };
 
 struct tAcertos {
-  int qtdCandidatos, inscricao, v_lin, v_mat, v_nat, v_hum, red;
+  int inscricao, v_lin, v_mat, v_nat, v_hum, red;
   struct tAcertos *prox;
 };
+
+struct tMediaAcertos {
+  float mediaV_lin, mediaV_mat, mediaV_nat, mediaV_hum;
+};
+
+struct tDesvioPadrao {
+  float desvioPadraoV_lin, desvioPadraoV_mat, desvioPadraoV_nat,
+      desvioPadraoV_hum;
+}
