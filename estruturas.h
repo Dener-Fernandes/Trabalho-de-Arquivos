@@ -31,4 +31,4 @@ struct tMediaAcertos {
 struct tDesvioPadrao {
   float desvioPadraoV_lin, desvioPadraoV_mat, desvioPadraoV_nat,
       desvioPadraoV_hum;
-}
+};
