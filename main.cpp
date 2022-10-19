@@ -38,7 +38,7 @@ int main() {
   ler_e_inserir(nome01, nome02, nome03, nome04, cursosEPesos, cursosEVagas,
                 dados, acertos);
 
-  calcularMediaEDesvioPadrao(acertos, &mediaAcertos, desvioPadrao);
+  calcularMediaEDesvioPadrao(acertos, &mediaAcertos, &desvioPadrao);
 
   free(cursosEPesos);
   free(cursosEVagas);
