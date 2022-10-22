@@ -12,7 +12,9 @@ void imprimir(tPontuacao *lst)
   {
     if (p->inscricao == 571567)
     {
-      printf("%d %.3f %s\n", p->inscricao, p->pontuacaoV_lin, p->vaga);
+      printf("%d %.3f %.3f %.3f %.3f %d %s %.3f\n", p->inscricao,
+             p->pontuacaoV_lin, p->pontuacaoV_mat, p->pontuacaoV_nat,
+             p->pontuacaoV_hum, p->red, p->vaga, p->notaFinal);
       break;
     }
   }
@@ -46,7 +48,9 @@ int main()
                 dados, acertos);
 
   calcularMediaEDesvioPadrao(acertos, &mediaAcertos, &desvioPadrao);
-  calcularPontuacao(pontuacao, acertos, &mediaAcertos, &desvioPadrao, dados);
+
+  calcularPontuacao(pontuacao, acertos, &mediaAcertos, &desvioPadrao, dados,
+                    cursosEPesos);
 
   imprimir(pontuacao);
 

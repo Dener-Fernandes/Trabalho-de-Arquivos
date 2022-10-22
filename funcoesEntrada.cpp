@@ -234,14 +234,17 @@ void calcularMediaEDesvioPadrao(tAcertos *&acertos, tMediaAcertos *mediaAcertos,
 
 void calcularPontuacao(tPontuacao *&pontuacao, tAcertos *&acertos,
                        tMediaAcertos *mediaAcertos, tDesvioPadrao *desvioPadrao,
-                       tDados *&dados)
+                       tDados *&dados, tCursosEPesos *&cursosEPesos)
 {
+  int codigoCurso;
   tPontuacao *novo, *p;
   tAcertos *q;
   tDados *j;
+  tCursosEPesos *k;
 
   for (q = acertos; q != NULL; q = q->prox)
   {
+
     novo = (tPontuacao *)malloc(sizeof(tPontuacao));
     novo->inscricao = q->inscricao;
 
@@ -265,6 +268,20 @@ void calcularPontuacao(tPontuacao *&pontuacao, tAcertos *&acertos,
       if (novo->inscricao == j->inscricao)
       {
         strcpy(novo->vaga, j->vaga);
+        codigoCurso = j->codigo;
+        break;
+      }
+    }
+
+    for (k = cursosEPesos; k != NULL; k = k->prox)
+    {
+      if (codigoCurso == k->codigo)
+      {
+        novo->notaFinal =
+            (k->red * novo->red) + (k->hum * novo->pontuacaoV_hum) +
+            ((k->nat * novo->pontuacaoV_nat) + (k->lin * novo->pontuacaoV_lin) +
+             (k->mat * novo->pontuacaoV_mat)) /
+                (k->red + k->hum + k->nat + k->lin + k->mat);
         break;
       }
     }
@@ -285,4 +302,6 @@ void calcularPontuacao(tPontuacao *&pontuacao, tAcertos *&acertos,
       p->prox = novo;
     }
   }
+
+  return;
 }

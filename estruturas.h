@@ -41,9 +41,9 @@ struct tDesvioPadrao
 
 struct tPontuacao
 {
-  float pontuacaoV_lin, pontuacaoV_mat, pontuacaoV_nat, pontuacaoV_hum, red,
+  float pontuacaoV_lin, pontuacaoV_mat, pontuacaoV_nat, pontuacaoV_hum,
       notaFinal;
   char vaga[4];
-  int inscricao, classificacao;
+  int inscricao, classificacao, red;
   struct tPontuacao *prox;
 };
