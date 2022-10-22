@@ -3,12 +3,13 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <string.h>
 
 void ler_e_inserir(char nomeArquivo01[MAX], char nomeArquivo02[MAX],
                    char nomeArquivo03[MAX], char nomeArquivo04[MAX],
                    tCursosEPesos *&cursosEPesos, tCursosEVagas *&cursosEVagas,
-                   tDados *&dados, tAcertos *&acertos) {
+                   tDados *&dados, tAcertos *&acertos)
+{
 
   FILE *arquivo01, *arquivo02, *arquivo03, *arquivo04;
 
@@ -17,10 +18,13 @@ void ler_e_inserir(char nomeArquivo01[MAX], char nomeArquivo02[MAX],
   arquivo03 = fopen(nomeArquivo03, "r");
   arquivo04 = fopen(nomeArquivo04, "r");
 
-  if (!(arquivo01 && arquivo02 && arquivo03 && arquivo04)) {
+  if (!(arquivo01 && arquivo02 && arquivo03 && arquivo04))
+  {
     printf("Erro ao abrir os arquivos!");
     return;
-  } else {
+  }
+  else
+  {
 
     int nCursos, nVagas, nDados, nAcertos, dadosCodigoCurso;
     fscanf(arquivo01, "%d", &nCursos);
@@ -29,7 +33,8 @@ void ler_e_inserir(char nomeArquivo01[MAX], char nomeArquivo02[MAX],
     fscanf(arquivo04, "%d", &nAcertos);
 
     // Arquivo01
-    while (nCursos) {
+    while (nCursos)
+    {
       tCursosEPesos *novo, *p;
 
       novo = (tCursosEPesos *)malloc(sizeof(tCursosEPesos));
@@ -39,12 +44,16 @@ void ler_e_inserir(char nomeArquivo01[MAX], char nomeArquivo02[MAX],
              &novo->nat);
       novo->prox = NULL;
 
-      if (!cursosEPesos) {
+      if (!cursosEPesos)
+      {
         cursosEPesos = novo;
-      } else {
+      }
+      else
+      {
         p = cursosEPesos;
 
-        while (p->prox != NULL) {
+        while (p->prox != NULL)
+        {
           p = p->prox;
         }
 
@@ -55,7 +64,8 @@ void ler_e_inserir(char nomeArquivo01[MAX], char nomeArquivo02[MAX],
     }
 
     // Arquivo02
-    while (nVagas) {
+    while (nVagas)
+    {
       tCursosEVagas *novo, *p;
 
       novo = (tCursosEVagas *)malloc(sizeof(tCursosEVagas));
@@ -66,12 +76,16 @@ void ler_e_inserir(char nomeArquivo01[MAX], char nomeArquivo02[MAX],
 
       novo->prox = NULL;
 
-      if (!cursosEVagas) {
+      if (!cursosEVagas)
+      {
         cursosEVagas = novo;
-      } else {
+      }
+      else
+      {
         p = cursosEVagas;
 
-        while (p->prox != NULL) {
+        while (p->prox != NULL)
+        {
           p = p->prox;
         }
 
@@ -84,7 +98,8 @@ void ler_e_inserir(char nomeArquivo01[MAX], char nomeArquivo02[MAX],
     // Arquivo03
 
     int qtdInscritos = nDados;
-    while (nDados) {
+    while (nDados)
+    {
       tDados *novo, *p;
 
       novo = (tDados *)malloc(sizeof(tDados));
@@ -96,12 +111,16 @@ void ler_e_inserir(char nomeArquivo01[MAX], char nomeArquivo02[MAX],
              novo->nome, &novo->dia, &novo->mes, &novo->ano, novo->vaga);
       novo->prox = NULL;
 
-      if (!dados) {
+      if (!dados)
+      {
         dados = novo;
-      } else {
+      }
+      else
+      {
         p = dados;
 
-        while (p->prox != NULL) {
+        while (p->prox != NULL)
+        {
           p = p->prox;
         }
 
@@ -110,7 +129,8 @@ void ler_e_inserir(char nomeArquivo01[MAX], char nomeArquivo02[MAX],
 
       nDados--;
 
-      if (!nDados) {
+      if (!nDados)
+      {
         fscanf(arquivo03, "%d %d", &dadosCodigoCurso, &nDados);
         qtdInscritos = nDados;
       }
@@ -118,7 +138,8 @@ void ler_e_inserir(char nomeArquivo01[MAX], char nomeArquivo02[MAX],
 
     // Arquivo04
 
-    while (nAcertos) {
+    while (nAcertos)
+    {
       tAcertos *novo, *p;
 
       novo = (tAcertos *)malloc(sizeof(tAcertos));
@@ -127,12 +148,16 @@ void ler_e_inserir(char nomeArquivo01[MAX], char nomeArquivo02[MAX],
              &novo->v_mat, &novo->v_nat, &novo->v_hum, &novo->red);
       novo->prox = NULL;
 
-      if (!acertos) {
+      if (!acertos)
+      {
         acertos = novo;
-      } else {
+      }
+      else
+      {
         p = acertos;
 
-        while (p->prox != NULL) {
+        while (p->prox != NULL)
+        {
           p = p->prox;
         }
 
@@ -151,26 +176,29 @@ void ler_e_inserir(char nomeArquivo01[MAX], char nomeArquivo02[MAX],
 }
 
 void calcularMediaEDesvioPadrao(tAcertos *&acertos, tMediaAcertos *mediaAcertos,
-                                tDesvioPadrao *desvioPadrao) {
+                                tDesvioPadrao *desvioPadrao)
+{
 
   tAcertos *p;
-  int n;
+  int n = 0;
 
-  for (p = acertos; p != NULL; p = p->prox) {
+  for (p = acertos; p != NULL; p = p->prox)
+  {
 
     mediaAcertos->mediaV_hum += p->v_hum;
     mediaAcertos->mediaV_lin += p->v_lin;
     mediaAcertos->mediaV_mat += p->v_mat;
-    mediaAcertos->mediaV_nat += p->v_mat;
+    mediaAcertos->mediaV_nat += p->v_nat;
     n++;
   }
 
-  mediaAcertos->mediaV_hum += mediaAcertos->mediaV_hum / n;
-  mediaAcertos->mediaV_lin += mediaAcertos->mediaV_lin / n;
-  mediaAcertos->mediaV_mat += mediaAcertos->mediaV_mat / n;
-  mediaAcertos->mediaV_nat += mediaAcertos->mediaV_nat / n;
+  mediaAcertos->mediaV_hum /= n;
+  mediaAcertos->mediaV_lin /= n;
+  mediaAcertos->mediaV_mat /= n;
+  mediaAcertos->mediaV_nat /= n;
 
-  for (p = acertos; p != NULL; p = p->prox) {
+  for (p = acertos; p != NULL; p = p->prox)
+  {
 
     desvioPadrao->desvioPadraoV_hum +=
         pow(p->v_hum - mediaAcertos->mediaV_hum, 2);
@@ -191,5 +219,70 @@ void calcularMediaEDesvioPadrao(tAcertos *&acertos, tMediaAcertos *mediaAcertos,
   desvioPadrao->desvioPadraoV_nat =
       sqrt(desvioPadrao->desvioPadraoV_nat / (n - 1));
 
+  mediaAcertos->mediaV_hum *= 2;
+  mediaAcertos->mediaV_lin *= 2;
+  mediaAcertos->mediaV_mat *= 2;
+  mediaAcertos->mediaV_nat *= 2;
+
+  desvioPadrao->desvioPadraoV_hum *= 2;
+  desvioPadrao->desvioPadraoV_lin *= 2;
+  desvioPadrao->desvioPadraoV_mat *= 2;
+  desvioPadrao->desvioPadraoV_nat *= 2;
+
   return;
+}
+
+void calcularPontuacao(tPontuacao *&pontuacao, tAcertos *&acertos,
+                       tMediaAcertos *mediaAcertos, tDesvioPadrao *desvioPadrao,
+                       tDados *&dados)
+{
+  tPontuacao *novo, *p;
+  tAcertos *q;
+  tDados *j;
+
+  for (q = acertos; q != NULL; q = q->prox)
+  {
+    novo = (tPontuacao *)malloc(sizeof(tPontuacao));
+    novo->inscricao = q->inscricao;
+
+    novo->pontuacaoV_lin = 500 + 100 *
+                                     (2 * q->v_lin - mediaAcertos->mediaV_lin) /
+                                     desvioPadrao->desvioPadraoV_lin;
+    novo->pontuacaoV_mat = 500 + 100 *
+                                     (2 * q->v_mat - mediaAcertos->mediaV_mat) /
+                                     desvioPadrao->desvioPadraoV_mat;
+    novo->pontuacaoV_nat = 500 + 100 *
+                                     (2 * q->v_nat - mediaAcertos->mediaV_nat) /
+                                     desvioPadrao->desvioPadraoV_nat;
+    novo->pontuacaoV_hum = 500 + 100 *
+                                     (2 * q->v_hum - mediaAcertos->mediaV_hum) /
+                                     desvioPadrao->desvioPadraoV_hum;
+    novo->red = q->red;
+    novo->prox = NULL;
+
+    for (j = dados; j != NULL; j = j->prox)
+    {
+      if (novo->inscricao == j->inscricao)
+      {
+        strcpy(novo->vaga, j->vaga);
+        break;
+      }
+    }
+
+    if (!pontuacao)
+    {
+      pontuacao = novo;
+    }
+    else
+    {
+      p = pontuacao;
+
+      while (p->prox != NULL)
+      {
+        p = p->prox;
+      }
+
+      p->prox = novo;
+    }
+  }
 }
