@@ -278,8 +278,8 @@ void calcularPontuacao(tPontuacao *&pontuacao, tAcertos *&acertos,
       if (codigoCurso == k->codigo)
       {
         novo->notaFinal =
-            (k->red * novo->red) + (k->hum * novo->pontuacaoV_hum) +
-            ((k->nat * novo->pontuacaoV_nat) + (k->lin * novo->pontuacaoV_lin) +
+            ((k->red * novo->red) + (k->hum * novo->pontuacaoV_hum) +
+            (k->nat * novo->pontuacaoV_nat) + (k->lin * novo->pontuacaoV_lin) +
              (k->mat * novo->pontuacaoV_mat)) /
                 (k->red + k->hum + k->nat + k->lin + k->mat);
         break;
