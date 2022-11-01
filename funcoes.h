@@ -7,6 +7,8 @@ void ler_e_inserir(char nomeArquivo01[MAX], char nomeArquivo02[MAX],
                    tCursosEPesos *&cursosEPesos, tCursosEVagas *&cursosEVagas,
                    tDados *&dados, tAcertos *&acertos);
 
+int pegarTamanhoArquivoDados(tArquivos arquivosNomes, tTamanhos tamanhos);
+
 void calcularMediaEDesvioPadrao(tAcertos *&acertos, tMediaAcertos *mediaAcertos,
                                 tDesvioPadrao *desvioPadrao);
 
