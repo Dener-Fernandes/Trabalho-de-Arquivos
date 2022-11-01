@@ -269,9 +269,11 @@ void calcularPontuacao(tPontuacao *&pontuacao, tAcertos *&acertos,
       {
         strcpy(novo->vaga, j->vaga);
         codigoCurso = j->codigo;
+        
         break;
       }
     }
+   
 
     for (k = cursosEPesos; k != NULL; k = k->prox)
     {
@@ -304,4 +306,172 @@ void calcularPontuacao(tPontuacao *&pontuacao, tAcertos *&acertos,
   }
 
   return;
+}
+
+
+
+void pesquisaCand(tDados* &p, int insc, tCursosEPesos* &q){
+  tDados *i;
+  tCursosEPesos *j;
+  int flag = 0;
+  for (i = p; i != NULL; i = i->prox)
+  {
+    if (i->inscricao == insc)
+    {
+      printf("%d %s %d/%d/%d %d ", i->inscricao, i->nome, i->dia, i->mes, i->ano, i->codigo);
+      flag = 1;
+      break;
+    }
+   
+  }
+  if(flag == 0){
+    printf("\nAluno não encontrado\n");
+    return;
+    }
+    
+  for(j = q; j != NULL; j = j->prox)
+    {
+      if (i->codigo == j->codigo)
+        printf("%s\n", j->nome);
+    }
+
+  
+}
+
+void desalocarCursosEPesos(tCursosEPesos* &L)
+{
+    tCursosEPesos *aux;
+
+    while( L != NULL)
+    {
+        aux = L;
+
+        L = aux->prox;
+
+        free(aux);
+    }
+}
+
+void desalocarCursosEVagas(tCursosEVagas* &L)
+{
+    tCursosEVagas *aux;
+
+    while( L != NULL)
+    {
+        aux = L;
+
+        L = aux->prox;
+
+        free(aux);
+    }
+}
+
+void desalocarDados(tDados* &L)
+{
+    tDados *aux;
+
+    while( L != NULL)
+    {
+        aux = L;
+
+        L = aux->prox;
+
+        free(aux);
+    }
+}
+
+void desalocarAcertos(tAcertos* &L)
+{
+    tAcertos *aux;
+
+    while( L != NULL)
+    {
+        aux = L;
+
+        L = aux->prox;
+
+        free(aux);
+    }
+}
+
+void LeArqRed(char nomeArquivo05[MAX], tAlteraRed* &AlteraRed)
+{
+  FILE *arquivo05;
+  arquivo05 = fopen(nomeArquivo05, "r");
+  if (!arquivo05)
+    printf("Erro ao abrir o arquivo");
+  else
+  {
+    int nAlteraRed;
+    fscanf(arquivo05, "%d", &nAlteraRed);
+    while(nAlteraRed)
+    {
+      tAlteraRed *novo, *p;
+
+      novo = (tAlteraRed *)malloc(sizeof(tAlteraRed));
+
+      fscanf(arquivo05, "%d %d %d", &novo->inscricao, &novo->notaAntes,
+             &novo->notaDepois);
+      novo->prox = NULL;
+
+      if (!AlteraRed)
+      {
+        AlteraRed = novo;
+      }
+      else
+      {
+        p = AlteraRed;
+
+        while (p->prox != NULL)
+        {
+          p = p->prox;
+        }
+
+        p->prox = novo;
+      }
+      
+      nAlteraRed--;
+    }
+    }
+  fclose(arquivo05);
+
+}
+
+void menu0()
+{
+  printf("*********** MENU ***********");
+  printf("\n0 - Ler arquivos de entrada");
+  printf("\n1 - Gerar arquivo de saída.txt");
+  printf("\n2 - Pesquisar candidatos");
+  printf("\n3 - Gerar arquivos dos candidatos não aprovados");
+  printf("\n4 - Alterar nota dos candidatos que entraram com recurso");
+  printf("\n5 - Encerrar programa\n");
+}
+
+void menu1()
+{
+  printf("*********** MENU ***********");
+  printf("\n1 - Gerar arquivo de saída.txt");
+  printf("\n2 - Pesquisar candidatos");
+  printf("\n3 - Gerar arquivos dos candidatos não aprovados");
+  printf("\n4 - Alterar nota dos candidatos que entraram com recurso");
+  printf("\n5 - Encerrar programa\n");
+}
+
+
+void AlteraReda(tAlteraRed* &p, tAcertos* &q)
+{
+  tAlteraRed *i;
+  tAcertos *j;
+
+  for(i = p; i != NULL; i = i->prox)
+    
+    {
+      for(j = q; j != NULL; j = j->prox)
+      {
+       if(j->inscricao == i->inscricao)
+         j->red = i->notaDepois;
+      }
+    }
+  
 }

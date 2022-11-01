@@ -47,3 +47,9 @@ struct tPontuacao
   int inscricao, classificacao, red;
   struct tPontuacao *prox;
 };
+
+struct tAlteraRed
+{
+  int inscricao, notaAntes, notaDepois;
+  struct tAlteraRed *prox;
+};
