@@ -1,109 +1,62 @@
-#include "funcoesEntrada.h"
+#include "funcoes.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-// Ordem de inserção dos arquivos: cursos_e_pesos.,
-// cursos_e_vagas.txt, dados.txt e acertos.txt
-
-/*void imprimir(tPontuacao *lst) {
-  tPontuacao *p;
-  for (p = lst; p != NULL; p = p->prox) 
-  {   
-    printf("%d %.3f %.3f %.3f %.3f %d %s %.3f\n", p->inscricao,
-           p->pontuacaoV_lin, p->pontuacaoV_mat, p->pontuacaoV_nat,
-           p->pontuacaoV_hum, p->red, p->vaga, p->notaFinal);
-  }
-
-  return;
-} */
-
-void imprimir(tPontuacao *lst)
-{
-  tPontuacao *p;
-  for (p = lst; p != NULL; p = p->prox)
-  {
-    if (p->inscricao == 548349)
-    {
-      printf("%d %.3f %.3f %.3f %.3f %d %s %.3f\n", p->inscricao,
-             p->pontuacaoV_lin, p->pontuacaoV_mat, p->pontuacaoV_nat,
-             p->pontuacaoV_hum, p->red, p->vaga, p->notaFinal);
-      break;
-    }
-  }
-
-  return;
-}
-
 int main() {
-  int op = -1; // variável de controle do menu
-  tCursosEPesos *cursosEPesos = NULL;
-  tCursosEVagas *cursosEVagas = NULL;
-  tDados *dados = NULL;
-  tAcertos *acertos = NULL;
-  tPontuacao *pontuacao = NULL;
+
+  tArquivos arquivosNomes;
+  FILE *arquivo01, *arquivo02, *arquivo03, *arquivo04;
+  tTamanhos tamanhos;
+
+  strcpy(arquivosNomes.nome01, "cursos_e_pesos.txt");
+  strcpy(arquivosNomes.nome02, "cursos_e_vagas.txt");
+  strcpy(arquivosNomes.nome03, "dados.txt");
+  strcpy(arquivosNomes.nome04, "acertos.txt");
+
+  arquivo01 = fopen(arquivosNomes.nome01, "r");
+  arquivo02 = fopen(arquivosNomes.nome02, "r");
+  arquivo04 = fopen(arquivosNomes.nome04, "r");
+
+  if (!(arquivo01 && arquivo02 && arquivo04)) {
+    printf("Erro ao abrir os arquivos!");
+    return 0;
+  } else {
+    int x = fscanf(arquivo01, "%d", &tamanhos.max01);
+    int y = fscanf(arquivo02, "%d", &tamanhos.max02);
+    tamanhos.max03 = pegarTamanhoArquivoDados(arquivosNomes, tamanhos);
+    int z = fscanf(arquivo04, "%d", &tamanhos.max04);
+    fclose(arquivo01);
+    fclose(arquivo02);
+    fclose(arquivo04);
+  }
+
+  // tCursosEPesos cursosEPesos[tamanhos.max01];
+  tCursosEPesos *cursosEPesos =
+      (tCursosEPesos *)calloc(tamanhos.max01, sizeof(tCursosEPesos));
+  tCursosEVagas *cursosEVagas =
+      (tCursosEVagas *)calloc(tamanhos.max02, sizeof(tCursosEVagas));
+  tDados *dados = (tDados *)calloc(tamanhos.max03, sizeof(tDados));
+  tAcertos *acertos = (tAcertos *)calloc(tamanhos.max04, sizeof(tAcertos));
+  tPontuacao *pontuacao =
+      (tPontuacao *)calloc(tamanhos.max04, sizeof(tPontuacao));
   tMediaAcertos mediaAcertos = {0.0};
   tDesvioPadrao desvioPadrao = {0.0};
-  tAlteraRed* AlteraRed = NULL;
-  
-  int pesqCand = 0; // para função pesquisar candidato do menu
 
-  // Variável que irá manipular o arquivo.
-  FILE *arquivo;
-  char nome01[MAX], nome02[MAX], nome03[MAX], nome04[MAX], nome05[MAX];
-  int tamanhoArquivo;
-  char cursoNome[MAX];
+  ler_e_inserir(arquivosNomes, tamanhos, cursosEPesos, cursosEVagas, dados,
+                acertos);
 
-  menu0();
-  scanf("%d", &op);
-  while(op != 0)
-  {
-      menu0();
-      scanf("%d", &op);
-     printf("Para executar as funções você precisa ler os arquivos!");
+  calcularMediaEDesvioPadrao(acertos, &mediaAcertos, tamanhos, &desvioPadrao);
+
+  calcularPontuacao(pontuacao, acertos, tamanhos, &mediaAcertos, &desvioPadrao,
+                    dados, cursosEPesos);
+
+  for (int i = 0; i < tamanhos.max04; i++) {
+    if (pontuacao[i].inscricao == 554840) {
+      printf("%d %.3f %.3f %.3f %.3f %d %s %.3f\n", pontuacao[i].inscricao,
+             pontuacao[i].pontuacaoV_lin, pontuacao[i].pontuacaoV_mat,
+             pontuacao[i].pontuacaoV_nat, pontuacao[i].pontuacaoV_hum,
+             pontuacao[i].red, pontuacao[i].vaga, pontuacao[i].notaFinal);
+    }
   }
-  while(op != 5)
-{
-    menu1();
-    scanf("%d", &op);
-    // Lendo os arquivos, pois a função não seria executada no outro while
-    strcpy(nome01, "cursos_e_pesos.txt");
-    strcpy(nome02, "cursos_e_vagas.txt");
-    strcpy(nome03, "dados.txt");
-    strcpy(nome04, "acertos.txt");
-
-    ler_e_inserir(nome01, nome02, nome03, nome04, cursosEPesos, cursosEVagas,
-                    dados, acertos);
-    if (op == 2){
-    printf("\nDigite a inscrição do aluno que deseja procurar: ");
-    scanf("%d", &pesqCand);
-    pesquisaCand(dados, pesqCand, cursosEPesos);
-  
-    }
-    if(op == 3){
-  calcularMediaEDesvioPadrao(acertos, &mediaAcertos, &desvioPadrao);
-   calcularPontuacao(pontuacao, acertos, &mediaAcertos, &desvioPadrao, dados, cursosEPesos);
-    imprimir(pontuacao);
-    }
-
-    if (op == 4){
-    strcpy(nome05, "alteraNotaRedacao.txt");
-    LeArqRed(nome05, AlteraRed);
-    AlteraReda(AlteraRed, acertos);
-    }
-    
-}
-
- // calcularMediaEDesvioPadrao(acertos, &mediaAcertos, &desvioPadrao);
- // calcularPontuacao(pontuacao, acertos, &mediaAcertos, &desvioPadrao, dados,
-                   // cursosEPesos);
-
-  
-  //imprimir(pontuacao);
-  desalocarCursosEPesos(cursosEPesos);
-  desalocarCursosEVagas(cursosEVagas);
-  desalocarDados(dados);
-  desalocarAcertos(acertos);
-
-  return 0;
 }

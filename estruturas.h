@@ -1,17 +1,29 @@
 #define MAX 80
 
+struct tArquivos
+{
+  char nome01[MAX];
+  char nome02[MAX];
+  char nome03[MAX];
+  char nome04[MAX];
+  char nome05[MAX];
+};
+
+struct tTamanhos
+{
+  int max01, max02, max03, max04;
+};
+
 struct tCursosEPesos
 {
   int codigo;
   char nome[MAX];
   int red, mat, lin, hum, nat;
-  struct tCursosEPesos *prox;
 };
 
 struct tCursosEVagas
 {
   int codigo, ac, l1, l3, l4, l5, l7, l8, l9, l11, l13, l15;
-  struct tCursosEVagas *prox;
 };
 
 struct tDados
@@ -19,13 +31,11 @@ struct tDados
   int codigo, qtdInscritos, inscricao, dia, mes, ano;
   char nome[MAX];
   char vaga[4];
-  struct tDados *prox;
 };
 
 struct tAcertos
 {
   int inscricao, v_lin, v_mat, v_nat, v_hum, red;
-  struct tAcertos *prox;
 };
 
 struct tMediaAcertos
@@ -45,11 +55,9 @@ struct tPontuacao
       notaFinal;
   char vaga[4];
   int inscricao, classificacao, red;
-  struct tPontuacao *prox;
 };
 
 struct tAlteraRed
 {
   int inscricao, notaAntes, notaDepois;
-  struct tAlteraRed *prox;
 };
