@@ -1,36 +1,19 @@
-// Aqui vai ter muita batatinha.
 #include "estruturas.h"
+#define MAX01 113
+#define MAX02 113
+#define MAX03 16332
+#define MAX04 13873
 
+int ler_e_inserir(tArquivos arquivosNomes, tTamanhos tamanhos,
+                  tCursosEPesos *cursosEPesos, tCursosEVagas *cursosEVagas,
+                  tDados *dados, tAcertos *acertos);
+int pegarTamanhoArquivoDados(tArquivos arquivosNomes, tTamanhos tamanhos);
 
-void ler_e_inserir(char nomeArquivo01[MAX], char nomeArquivo02[MAX],
-                   char nomeArquivo03[MAX], char nomeArquivo04[MAX],
-                   tCursosEPesos *&cursosEPesos, tCursosEVagas *&cursosEVagas,
-                   tDados *&dados, tAcertos *&acertos);
-
-void calcularMediaEDesvioPadrao(tAcertos *&acertos, tMediaAcertos *mediaAcertos,
+void calcularMediaEDesvioPadrao(tAcertos acertos[MAX04],
+                                tMediaAcertos *mediaAcertos, tTamanhos tamanhos,
                                 tDesvioPadrao *desvioPadrao);
 
-void calcularPontuacao(tPontuacao *&pontuacao, tAcertos *&acertos,
-                       tMediaAcertos *mediaAcertos, tDesvioPadrao *desvioPadrao,
-                       tDados *&dados, tCursosEPesos *&cursosEPesos);
-
-void ord(tPontuacao *pontuacao);
-
-void pesquisaCand(tDados* &p, int insc, tCursosEPesos* &q);
-
-void desalocarCursosEPesos(tCursosEPesos* &L);
-
-void desalocarCursosEVagas(tCursosEVagas* &L);
-
-void desalocarDados(tDados* &L);
-
-void desalocarAcertos(tAcertos* &L);
-
-void LeArqRed(char nomeArquivo05[MAX], tAlteraRed *& AlteraRed);
-
-void menu0();
-
-void menu1();
-
-void AlteraReda(tAlteraRed* &p, tAcertos* &q);
-
+void calcularPontuacao(tPontuacao *pontuacao, tAcertos *acertos,
+                       tTamanhos tamanhos, tMediaAcertos *mediaAcertos,
+                       tDesvioPadrao *desvioPadrao, tDados *dados,
+                       tCursosEPesos *cursosEPesos);
