@@ -24,3 +24,6 @@ void alterarNotaRedacao(tAlteraRed alteraRedacao, tTamanhos tamanhos,
 
 void alterarNotaRedacao(tTamanhos tamanhos, tAlteraRed *alteraRedacao,
                         tAcertos *acertos);
+
+void procurarCandidato(tTamanhos tamanhos, int inscricao, tDados *dados,
+                       tCursosEPesos *cursosEPesos);

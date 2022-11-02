@@ -91,5 +91,8 @@ int main()
     }
   }
 
+  int inscricao = 547472;
+  procurarCandidato(tamanhos, inscricao, dados, cursosEPesos);
+
   return 0;
 }

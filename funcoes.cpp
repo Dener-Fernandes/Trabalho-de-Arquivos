@@ -258,3 +258,38 @@ void alterarNotaRedacao(tTamanhos tamanhos, tAlteraRed *alteraRedacao,
 
   return;
 }
+
+void procurarCandidato(tTamanhos tamanhos, int inscricao, tDados *dados,
+                       tCursosEPesos *cursosEPesos)
+{
+  char nomeCandidato[MAX], nomeCurso[MAX];
+  int diaInscricao, mesInscricao, anoInscricao;
+  int codigoCurso;
+
+  for (int i = 0; i < tamanhos.max03; i++)
+  {
+    if (dados[i].inscricao == inscricao)
+    {
+      strcpy(nomeCandidato, dados[i].nome);
+      diaInscricao = dados[i].dia;
+      mesInscricao = dados[i].mes;
+      anoInscricao = dados[i].ano;
+      codigoCurso = dados[i].codigo;
+      break;
+    }
+  }
+
+  for (int i = 0; i < tamanhos.max01; i++)
+  {
+    if (cursosEPesos[i].codigo == codigoCurso)
+    {
+      strcpy(nomeCurso, cursosEPesos[i].nome);
+      break;
+    }
+  }
+
+  printf("%d %s %d/%d/%d %d %s\n", inscricao, nomeCandidato, diaInscricao,
+         mesInscricao, anoInscricao, codigoCurso, nomeCurso);
+
+  return;
+}
