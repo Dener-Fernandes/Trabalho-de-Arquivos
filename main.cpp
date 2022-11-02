@@ -14,7 +14,7 @@ int main()
   strcpy(arquivosNomes.nome02, "cursos_e_vagas.txt");
   strcpy(arquivosNomes.nome03, "dados.txt");
   strcpy(arquivosNomes.nome04, "acertos.txt");
-  strcpy(arquivosNomes.nome05, "alteracaoNotaRedacao");
+  strcpy(arquivosNomes.nome05, "alteracaoNotaRedacao.txt");
 
   arquivo01 = fopen(arquivosNomes.nome01, "r");
   arquivo02 = fopen(arquivosNomes.nome02, "r");
