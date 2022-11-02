@@ -6,7 +6,8 @@
 
 int ler_e_inserir(tArquivos arquivosNomes, tTamanhos tamanhos,
                   tCursosEPesos *cursosEPesos, tCursosEVagas *cursosEVagas,
-                  tDados *dados, tAcertos *acertos);
+                  tDados *dados, tAcertos *acertos, tAlteraRed *alteraRedacao);
+
 int pegarTamanhoArquivoDados(tArquivos arquivosNomes, tTamanhos tamanhos);
 
 void calcularMediaEDesvioPadrao(tAcertos acertos[MAX04],
@@ -17,3 +18,9 @@ void calcularPontuacao(tPontuacao *pontuacao, tAcertos *acertos,
                        tTamanhos tamanhos, tMediaAcertos *mediaAcertos,
                        tDesvioPadrao *desvioPadrao, tDados *dados,
                        tCursosEPesos *cursosEPesos);
+
+void alterarNotaRedacao(tAlteraRed alteraRedacao, tTamanhos tamanhos,
+                        tAcertos acertos);
+
+void alterarNotaRedacao(tTamanhos tamanhos, tAlteraRed *alteraRedacao,
+                        tAcertos *acertos);

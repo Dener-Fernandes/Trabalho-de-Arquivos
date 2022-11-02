@@ -4,19 +4,24 @@
 #include <stdlib.h>
 #include <string.h>
 
-int pegarTamanhoArquivoDados(tArquivos arquivosNomes, tTamanhos tamanhos) {
+int pegarTamanhoArquivoDados(tArquivos arquivosNomes, tTamanhos tamanhos)
+{
   int codigoCurso, i = 0;
   FILE *arquivo03;
 
   arquivo03 = fopen(arquivosNomes.nome03, "r");
 
-  if (!arquivo03) {
+  if (!arquivo03)
+  {
     printf("Erro ao abrir o arquivo dados.txt");
     return 0;
-  } else {
+  }
+  else
+  {
     int x = fscanf(arquivo03, "%d %d", &codigoCurso, &tamanhos.max03);
 
-    while (tamanhos.max03) {
+    while (tamanhos.max03)
+    {
       int dados;
       char dadosNome[MAX];
       int x = fscanf(arquivo03, "%d %[^/0123456789] %d/%d/%d %s", &dados,
@@ -25,7 +30,8 @@ int pegarTamanhoArquivoDados(tArquivos arquivosNomes, tTamanhos tamanhos) {
       i++;
       tamanhos.max03--;
 
-      if (!tamanhos.max03) {
+      if (!tamanhos.max03)
+      {
         int x = fscanf(arquivo03, "%d %d", &codigoCurso, &tamanhos.max03);
       }
       dados = 0;
@@ -38,9 +44,10 @@ int pegarTamanhoArquivoDados(tArquivos arquivosNomes, tTamanhos tamanhos) {
 
 int ler_e_inserir(tArquivos arquivosNomes, tTamanhos tamanhos,
                   tCursosEPesos *cursosEPesos, tCursosEVagas *cursosEVagas,
-                  tDados *dados, tAcertos *acertos) {
+                  tDados *dados, tAcertos *acertos, tAlteraRed *alteraRedacao)
+{
 
-  FILE *arquivo01, *arquivo02, *arquivo03, *arquivo04;
+  FILE *arquivo01, *arquivo02, *arquivo03, *arquivo04, *arquivo05;
 
   int codigoCurso, i = 0;
 
@@ -48,18 +55,24 @@ int ler_e_inserir(tArquivos arquivosNomes, tTamanhos tamanhos,
   arquivo02 = fopen(arquivosNomes.nome02, "r");
   arquivo03 = fopen(arquivosNomes.nome03, "r");
   arquivo04 = fopen(arquivosNomes.nome04, "r");
+  arquivo05 = fopen(arquivosNomes.nome05, "r");
 
-  if (!(arquivo01 && arquivo02 && arquivo04)) {
+  if (!(arquivo01 && arquivo02 && arquivo03 && arquivo04 && arquivo05))
+  {
     printf("Erro ao abrir os arquivos!");
     return 0;
-  } else {
+  }
+  else
+  {
 
     int x = fscanf(arquivo01, "%d", &tamanhos.max01);
     int y = fscanf(arquivo02, "%d", &tamanhos.max02);
     int z = fscanf(arquivo03, "%d %d", &codigoCurso, &tamanhos.max03);
     int a = fscanf(arquivo04, "%d", &tamanhos.max04);
+    int b = fscanf(arquivo05, "%d", &tamanhos.max05);
 
-    for (int i = 0; i < tamanhos.max01; i++) {
+    for (int i = 0; i < tamanhos.max01; i++)
+    {
       int x = fscanf(arquivo01, "%d %[^/0123456789] %d %d %d %d %d",
                      &cursosEPesos[i].codigo, cursosEPesos[i].nome,
                      &cursosEPesos[i].red, &cursosEPesos[i].mat,
@@ -67,7 +80,8 @@ int ler_e_inserir(tArquivos arquivosNomes, tTamanhos tamanhos,
                      &cursosEPesos[i].nat);
     }
 
-    for (int i = 0; i < tamanhos.max02; i++) {
+    for (int i = 0; i < tamanhos.max02; i++)
+    {
       int x = fscanf(
           arquivo02, "%d %d %d %d %d %d %d %d %d %d %d %d",
           &cursosEVagas[i].codigo, &cursosEVagas[i].ac, &cursosEVagas[i].l1,
@@ -78,7 +92,8 @@ int ler_e_inserir(tArquivos arquivosNomes, tTamanhos tamanhos,
 
     int qtdInscritos = tamanhos.max03;
 
-    while (tamanhos.max03) {
+    while (tamanhos.max03)
+    {
 
       dados[i].codigo = codigoCurso;
 
@@ -89,16 +104,24 @@ int ler_e_inserir(tArquivos arquivosNomes, tTamanhos tamanhos,
       i++;
       tamanhos.max03--;
 
-      if (!tamanhos.max03) {
+      if (!tamanhos.max03)
+      {
         int x = fscanf(arquivo03, "%d %d", &codigoCurso, &tamanhos.max03);
         qtdInscritos = tamanhos.max03;
       }
     }
 
-    for (int i = 0; i < tamanhos.max04; i++) {
+    for (int i = 0; i < tamanhos.max04; i++)
+    {
       int x = fscanf(arquivo04, "%d %d %d %d %d %d", &acertos[i].inscricao,
                      &acertos[i].v_lin, &acertos[i].v_mat, &acertos[i].v_nat,
                      &acertos[i].v_hum, &acertos[i].red);
+    }
+
+    for (int i = 0; i < tamanhos.max05; i++)
+    {
+      fscanf(arquivo05, "%d %d %d", &alteraRedacao[i].inscricao,
+             &alteraRedacao[i].notaAntes, &alteraRedacao[i].notaDepois);
     }
   }
 
@@ -107,10 +130,12 @@ int ler_e_inserir(tArquivos arquivosNomes, tTamanhos tamanhos,
 
 void calcularMediaEDesvioPadrao(tAcertos acertos[MAX04],
                                 tMediaAcertos *mediaAcertos, tTamanhos tamanhos,
-                                tDesvioPadrao *desvioPadrao) {
+                                tDesvioPadrao *desvioPadrao)
+{
 
   int n = 0;
-  for (int i = 0; i < tamanhos.max04; i++) {
+  for (int i = 0; i < tamanhos.max04; i++)
+  {
     mediaAcertos->mediaV_hum += acertos[i].v_hum;
     mediaAcertos->mediaV_lin += acertos[i].v_lin;
     mediaAcertos->mediaV_mat += acertos[i].v_mat;
@@ -124,7 +149,8 @@ void calcularMediaEDesvioPadrao(tAcertos acertos[MAX04],
   mediaAcertos->mediaV_mat /= n;
   mediaAcertos->mediaV_nat /= n;
 
-  for (int i = 0; i < tamanhos.max04; i++) {
+  for (int i = 0; i < tamanhos.max04; i++)
+  {
     desvioPadrao->desvioPadraoV_hum +=
         pow(acertos[i].v_hum - mediaAcertos->mediaV_hum, 2);
     desvioPadrao->desvioPadraoV_lin +=
@@ -160,10 +186,12 @@ void calcularMediaEDesvioPadrao(tAcertos acertos[MAX04],
 void calcularPontuacao(tPontuacao *pontuacao, tAcertos *acertos,
                        tTamanhos tamanhos, tMediaAcertos *mediaAcertos,
                        tDesvioPadrao *desvioPadrao, tDados *dados,
-                       tCursosEPesos *cursosEPesos) {
+                       tCursosEPesos *cursosEPesos)
+{
   int codigoCurso;
 
-  for (int i = 0; i < tamanhos.max04; i++) {
+  for (int i = 0; i < tamanhos.max04; i++)
+  {
     pontuacao[i].inscricao = acertos[i].inscricao;
 
     pontuacao[i].pontuacaoV_lin =
@@ -180,8 +208,10 @@ void calcularPontuacao(tPontuacao *pontuacao, tAcertos *acertos,
                   desvioPadrao->desvioPadraoV_hum;
     pontuacao[i].red = acertos[i].red;
 
-    for (int j = 0; j < tamanhos.max03; j++) {
-      if (pontuacao[i].inscricao == dados[j].inscricao) {
+    for (int j = 0; j < tamanhos.max03; j++)
+    {
+      if (pontuacao[i].inscricao == dados[j].inscricao)
+      {
         strcpy(pontuacao[i].vaga, dados[j].vaga);
 
         codigoCurso = dados[j].codigo;
@@ -189,8 +219,10 @@ void calcularPontuacao(tPontuacao *pontuacao, tAcertos *acertos,
       }
     }
 
-    for (int k = 0; k < tamanhos.max01; k++) {
-      if (codigoCurso == cursosEPesos[k].codigo) {
+    for (int k = 0; k < tamanhos.max01; k++)
+    {
+      if (codigoCurso == cursosEPesos[k].codigo)
+      {
 
         pontuacao[i].notaFinal =
             ((cursosEPesos[k].red * pontuacao[i].red) +
@@ -201,6 +233,25 @@ void calcularPontuacao(tPontuacao *pontuacao, tAcertos *acertos,
             (cursosEPesos[k].red + cursosEPesos[k].hum + cursosEPesos[k].nat +
              cursosEPesos[k].lin + cursosEPesos[k].mat);
         break;
+      }
+    }
+  }
+
+  return;
+}
+
+void alterarNotaRedacao(tTamanhos tamanhos, tAlteraRed *alteraRedacao,
+                        tAcertos *acertos)
+{
+
+  for (int j = 0; j < tamanhos.max04; j++)
+  {
+    for (int i = 0; i < tamanhos.max05; i++)
+    {
+      if (acertos[j].inscricao == alteraRedacao[i].inscricao)
+      {
+        acertos[j].red = alteraRedacao[i].notaDepois;
+        // printf("Batata %d\n", acertos[j].red);
       }
     }
   }

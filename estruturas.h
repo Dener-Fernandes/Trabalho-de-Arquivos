@@ -11,7 +11,7 @@ struct tArquivos
 
 struct tTamanhos
 {
-  int max01, max02, max03, max04;
+  int max01, max02, max03, max04, max05;
 };
 
 struct tCursosEPesos
