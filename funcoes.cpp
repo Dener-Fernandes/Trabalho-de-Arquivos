@@ -4,24 +4,19 @@
 #include <stdlib.h>
 #include <string.h>
 
-int pegarTamanhoArquivoDados(tArquivos arquivosNomes, tTamanhos tamanhos)
-{
+int pegarTamanhoArquivoDados(tArquivos arquivosNomes, tTamanhos tamanhos) {
   int codigoCurso, i = 0;
   FILE *arquivo03;
 
   arquivo03 = fopen(arquivosNomes.nome03, "r");
 
-  if (!arquivo03)
-  {
+  if (!arquivo03) {
     printf("Erro ao abrir o arquivo dados.txt");
     return 0;
-  }
-  else
-  {
+  } else {
     int x = fscanf(arquivo03, "%d %d", &codigoCurso, &tamanhos.max03);
 
-    while (tamanhos.max03)
-    {
+    while (tamanhos.max03) {
       int dados;
       char dadosNome[MAX];
       int x = fscanf(arquivo03, "%d %[^/0123456789] %d/%d/%d %s", &dados,
@@ -30,8 +25,7 @@ int pegarTamanhoArquivoDados(tArquivos arquivosNomes, tTamanhos tamanhos)
       i++;
       tamanhos.max03--;
 
-      if (!tamanhos.max03)
-      {
+      if (!tamanhos.max03) {
         int x = fscanf(arquivo03, "%d %d", &codigoCurso, &tamanhos.max03);
       }
       dados = 0;
@@ -44,8 +38,7 @@ int pegarTamanhoArquivoDados(tArquivos arquivosNomes, tTamanhos tamanhos)
 
 int ler_e_inserir(tArquivos arquivosNomes, tTamanhos tamanhos,
                   tCursosEPesos *cursosEPesos, tCursosEVagas *cursosEVagas,
-                  tDados *dados, tAcertos *acertos, tAlteraRed *alteraRedacao)
-{
+                  tDados *dados, tAcertos *acertos, tAlteraRed *alteraRedacao) {
 
   FILE *arquivo01, *arquivo02, *arquivo03, *arquivo04, *arquivo05;
 
@@ -57,13 +50,10 @@ int ler_e_inserir(tArquivos arquivosNomes, tTamanhos tamanhos,
   arquivo04 = fopen(arquivosNomes.nome04, "r");
   arquivo05 = fopen(arquivosNomes.nome05, "r");
 
-  if (!(arquivo01 && arquivo02 && arquivo03 && arquivo04 && arquivo05))
-  {
+  if (!(arquivo01 && arquivo02 && arquivo03 && arquivo04 && arquivo05)) {
     printf("Erro ao abrir os arquivos!");
     return 0;
-  }
-  else
-  {
+  } else {
 
     int x = fscanf(arquivo01, "%d", &tamanhos.max01);
     int y = fscanf(arquivo02, "%d", &tamanhos.max02);
@@ -71,8 +61,7 @@ int ler_e_inserir(tArquivos arquivosNomes, tTamanhos tamanhos,
     int a = fscanf(arquivo04, "%d", &tamanhos.max04);
     int b = fscanf(arquivo05, "%d", &tamanhos.max05);
 
-    for (int i = 0; i < tamanhos.max01; i++)
-    {
+    for (int i = 0; i < tamanhos.max01; i++) {
       int x = fscanf(arquivo01, "%d %[^/0123456789] %d %d %d %d %d",
                      &cursosEPesos[i].codigo, cursosEPesos[i].nome,
                      &cursosEPesos[i].red, &cursosEPesos[i].mat,
@@ -80,8 +69,7 @@ int ler_e_inserir(tArquivos arquivosNomes, tTamanhos tamanhos,
                      &cursosEPesos[i].nat);
     }
 
-    for (int i = 0; i < tamanhos.max02; i++)
-    {
+    for (int i = 0; i < tamanhos.max02; i++) {
       int x = fscanf(
           arquivo02, "%d %d %d %d %d %d %d %d %d %d %d %d",
           &cursosEVagas[i].codigo, &cursosEVagas[i].ac, &cursosEVagas[i].l1,
@@ -92,8 +80,7 @@ int ler_e_inserir(tArquivos arquivosNomes, tTamanhos tamanhos,
 
     int qtdInscritos = tamanhos.max03;
 
-    while (tamanhos.max03)
-    {
+    while (tamanhos.max03) {
 
       dados[i].codigo = codigoCurso;
 
@@ -104,22 +91,19 @@ int ler_e_inserir(tArquivos arquivosNomes, tTamanhos tamanhos,
       i++;
       tamanhos.max03--;
 
-      if (!tamanhos.max03)
-      {
+      if (!tamanhos.max03) {
         int x = fscanf(arquivo03, "%d %d", &codigoCurso, &tamanhos.max03);
         qtdInscritos = tamanhos.max03;
       }
     }
 
-    for (int i = 0; i < tamanhos.max04; i++)
-    {
+    for (int i = 0; i < tamanhos.max04; i++) {
       int x = fscanf(arquivo04, "%d %d %d %d %d %d", &acertos[i].inscricao,
                      &acertos[i].v_lin, &acertos[i].v_mat, &acertos[i].v_nat,
                      &acertos[i].v_hum, &acertos[i].red);
     }
 
-    for (int i = 0; i < tamanhos.max05; i++)
-    {
+    for (int i = 0; i < tamanhos.max05; i++) {
       fscanf(arquivo05, "%d %d %d", &alteraRedacao[i].inscricao,
              &alteraRedacao[i].notaAntes, &alteraRedacao[i].notaDepois);
     }
@@ -130,12 +114,10 @@ int ler_e_inserir(tArquivos arquivosNomes, tTamanhos tamanhos,
 
 void calcularMediaEDesvioPadrao(tAcertos acertos[MAX04],
                                 tMediaAcertos *mediaAcertos, tTamanhos tamanhos,
-                                tDesvioPadrao *desvioPadrao)
-{
+                                tDesvioPadrao *desvioPadrao) {
 
   int n = 0;
-  for (int i = 0; i < tamanhos.max04; i++)
-  {
+  for (int i = 0; i < tamanhos.max04; i++) {
     mediaAcertos->mediaV_hum += acertos[i].v_hum;
     mediaAcertos->mediaV_lin += acertos[i].v_lin;
     mediaAcertos->mediaV_mat += acertos[i].v_mat;
@@ -149,8 +131,7 @@ void calcularMediaEDesvioPadrao(tAcertos acertos[MAX04],
   mediaAcertos->mediaV_mat /= n;
   mediaAcertos->mediaV_nat /= n;
 
-  for (int i = 0; i < tamanhos.max04; i++)
-  {
+  for (int i = 0; i < tamanhos.max04; i++) {
     desvioPadrao->desvioPadraoV_hum +=
         pow(acertos[i].v_hum - mediaAcertos->mediaV_hum, 2);
     desvioPadrao->desvioPadraoV_lin +=
@@ -186,12 +167,10 @@ void calcularMediaEDesvioPadrao(tAcertos acertos[MAX04],
 void calcularPontuacao(tPontuacao *pontuacao, tAcertos *acertos,
                        tTamanhos tamanhos, tMediaAcertos *mediaAcertos,
                        tDesvioPadrao *desvioPadrao, tDados *dados,
-                       tCursosEPesos *cursosEPesos)
-{
+                       tCursosEPesos *cursosEPesos) {
   int codigoCurso;
 
-  for (int i = 0; i < tamanhos.max04; i++)
-  {
+  for (int i = 0; i < tamanhos.max04; i++) {
     pontuacao[i].inscricao = acertos[i].inscricao;
 
     pontuacao[i].pontuacaoV_lin =
@@ -208,10 +187,8 @@ void calcularPontuacao(tPontuacao *pontuacao, tAcertos *acertos,
                   desvioPadrao->desvioPadraoV_hum;
     pontuacao[i].red = acertos[i].red;
 
-    for (int j = 0; j < tamanhos.max03; j++)
-    {
-      if (pontuacao[i].inscricao == dados[j].inscricao)
-      {
+    for (int j = 0; j < tamanhos.max03; j++) {
+      if (pontuacao[i].inscricao == dados[j].inscricao) {
         strcpy(pontuacao[i].vaga, dados[j].vaga);
 
         codigoCurso = dados[j].codigo;
@@ -219,10 +196,8 @@ void calcularPontuacao(tPontuacao *pontuacao, tAcertos *acertos,
       }
     }
 
-    for (int k = 0; k < tamanhos.max01; k++)
-    {
-      if (codigoCurso == cursosEPesos[k].codigo)
-      {
+    for (int k = 0; k < tamanhos.max01; k++) {
+      if (codigoCurso == cursosEPesos[k].codigo) {
 
         pontuacao[i].notaFinal =
             ((cursosEPesos[k].red * pontuacao[i].red) +
@@ -241,15 +216,11 @@ void calcularPontuacao(tPontuacao *pontuacao, tAcertos *acertos,
 }
 
 void alterarNotaRedacao(tTamanhos tamanhos, tAlteraRed *alteraRedacao,
-                        tAcertos *acertos)
-{
+                        tAcertos *acertos) {
 
-  for (int j = 0; j < tamanhos.max04; j++)
-  {
-    for (int i = 0; i < tamanhos.max05; i++)
-    {
-      if (acertos[j].inscricao == alteraRedacao[i].inscricao)
-      {
+  for (int j = 0; j < tamanhos.max04; j++) {
+    for (int i = 0; i < tamanhos.max05; i++) {
+      if (acertos[j].inscricao == alteraRedacao[i].inscricao) {
         acertos[j].red = alteraRedacao[i].notaDepois;
         // printf("Batata %d\n", acertos[j].red);
       }
@@ -260,29 +231,30 @@ void alterarNotaRedacao(tTamanhos tamanhos, tAlteraRed *alteraRedacao,
 }
 
 void procurarCandidato(tTamanhos tamanhos, int inscricao, tDados *dados,
-                       tCursosEPesos *cursosEPesos)
-{
+                       tCursosEPesos *cursosEPesos) {
   char nomeCandidato[MAX], nomeCurso[MAX];
   int diaInscricao, mesInscricao, anoInscricao;
   int codigoCurso;
+  int flag = 0;
 
-  for (int i = 0; i < tamanhos.max03; i++)
-  {
-    if (dados[i].inscricao == inscricao)
-    {
+  for (int i = 0; i < tamanhos.max03; i++) {
+    if (dados[i].inscricao == inscricao) {
       strcpy(nomeCandidato, dados[i].nome);
       diaInscricao = dados[i].dia;
       mesInscricao = dados[i].mes;
       anoInscricao = dados[i].ano;
       codigoCurso = dados[i].codigo;
+      flag = 1;
       break;
     }
   }
+  if (flag == 0) {
+    printf("Aluno não encontrado\n");
+    return;
+  }
 
-  for (int i = 0; i < tamanhos.max01; i++)
-  {
-    if (cursosEPesos[i].codigo == codigoCurso)
-    {
+  for (int i = 0; i < tamanhos.max01; i++) {
+    if (cursosEPesos[i].codigo == codigoCurso) {
       strcpy(nomeCurso, cursosEPesos[i].nome);
       break;
     }
@@ -293,3 +265,162 @@ void procurarCandidato(tTamanhos tamanhos, int inscricao, tDados *dados,
 
   return;
 }
+
+void menu0() {
+  printf("*********** MENU ***********");
+  printf("\n0 - Ler arquivos de entrada");
+  printf("\n1 - Gerar arquivo de saída.txt");
+  printf("\n2 - Pesquisar candidatos");
+  printf("\n3 - Gerar arquivos dos candidatos não aprovados");
+  printf("\n4 - Alterar nota dos candidatos que entraram com recurso");
+  printf("\n5 - Encerrar programa\n");
+}
+
+void menu1() {
+  printf("*********** MENU ***********");
+  printf("\n1 - Gerar arquivo de saída.txt");
+  printf("\n2 - Pesquisar candidatos");
+  printf("\n3 - Gerar arquivos dos candidatos não aprovados");
+  printf("\n4 - Alterar nota dos candidatos que entraram com recurso");
+  printf("\n5 - Encerrar programa\n");
+}
+
+void imprimirPontuacao(tTamanhos tamanhos, tPontuacao *lst) {
+
+  tPontuacao *pontuacao = lst;
+  for (int i = 0; i < tamanhos.max04; i++) {
+
+    printf("%d %.3f %.3f %.3f %.3f %d %s %.3f\n", pontuacao[i].inscricao,
+           pontuacao[i].pontuacaoV_lin, pontuacao[i].pontuacaoV_mat,
+           pontuacao[i].pontuacaoV_nat, pontuacao[i].pontuacaoV_hum,
+           pontuacao[i].red, pontuacao[i].vaga, pontuacao[i].notaFinal);
+  }
+}
+
+void ordenaAlfabetica(tTamanhos tamanhos, tCursosEPesos *lst) {
+  tCursosEPesos *i = lst;
+  char aux[MAX];
+  for (int j = 1; j < tamanhos.max01; j++) {
+    for (int k = 0; k < tamanhos.max01 - j; k++) {
+      if (strcmp(i[k].nome, i[j].nome) > 0) {
+        strcpy(aux, i[k].nome);
+        strcpy(i[k].nome, i[j].nome);
+        strcpy(i[j].nome, aux);
+      }
+    }
+  }
+}
+
+void imprimirNome(tTamanhos tamanhos, tCursosEPesos *lst) {
+  tCursosEPesos *i = lst;
+  for (int j = 0; j < tamanhos.max01; j++) {
+    printf(" %s\n", i[j].nome);
+  }
+}
+
+void calculaIdade(tDados *lst, tTamanhos tamanhos) {
+
+  for (int i = 0; i < tamanhos.max03; i++) {
+    lst[i].idade = (lst[i].ano * 365) + (lst[i].mes * 30) + lst[i].dia;
+  }
+  return;
+}
+
+void trocaPont(tPontuacao *a, tPontuacao *b) {
+  tPontuacao *aux;
+  aux = a;
+  a = b;
+  b = aux;
+}
+
+void bubblePont(tTamanhos tamanhos, tPontuacao *lst, tDados *x) {
+  tPontuacao *v = lst;
+  tDados *vDados = x;
+  for (int i = 1; i < tamanhos.max04; i++) {
+    for (int j = 0; j < tamanhos.max04 - i; j++) {
+      if (v[j].notaFinal < v[j + 1].notaFinal)
+        trocaPont(&v[j], &v[j + 1]);
+    }
+  }
+  for (int i = 1; i < tamanhos.max04; i++) {
+    for (int j = 0; j < tamanhos.max04 - i; j++) {
+      if (v[j].notaFinal == v[j + 1].notaFinal &&
+          vDados[j + 1].idade >= 21900 && vDados[j].idade < vDados[j + 1].idade)
+        trocaPont(&v[j], &v[j + 1]);
+    }
+  }
+
+  for (int i = 1; i < tamanhos.max04; i++) {
+    for (int j = 0; j < tamanhos.max04 - i; j++) {
+      if (v[j].notaFinal == v[j + 1].notaFinal && v[j].red < v[j + 1].red)
+        trocaPont(&v[j], &v[j + 1]);
+    }
+  }
+  for (int i = 1; i < tamanhos.max04; i++) {
+    for (int j = 0; j < tamanhos.max04 - i; j++) {
+      if (v[j].notaFinal == v[j + 1].notaFinal &&
+          v[j].pontuacaoV_lin < v[j + 1].pontuacaoV_lin)
+        trocaPont(&v[j], &v[j + 1]);
+    }
+  }
+  for (int i = 1; i < tamanhos.max04; i++) {
+    for (int j = 0; j < tamanhos.max04 - i; j++) {
+      if (v[j].notaFinal == v[j + 1].notaFinal &&
+          v[j].pontuacaoV_mat < v[j + 1].pontuacaoV_mat)
+        trocaPont(&v[j], &v[j + 1]);
+    }
+  }
+  for (int i = 1; i < tamanhos.max04; i++) {
+    for (int j = 0; j < tamanhos.max04 - i; j++) {
+      if (v[j].notaFinal == v[j + 1].notaFinal &&
+          v[j].pontuacaoV_hum < v[j + 1].pontuacaoV_hum)
+        trocaPont(&v[j], &v[j + 1]);
+    }
+  }
+  for (int i = 1; i < tamanhos.max04; i++) {
+    for (int j = 0; j < tamanhos.max04 - i; j++) {
+      if (v[j].notaFinal == v[j + 1].notaFinal &&
+          v[j].pontuacaoV_nat < v[j + 1].pontuacaoV_nat)
+        trocaPont(&v[j], &v[j + 1]);
+    }
+  }
+}
+
+void ordenaPont(tPontuacao *lst, tDados *x, tTamanhos tamanhos,
+                tCursosEPesos *k) {
+  tPontuacao *a = lst;
+  tDados *b = x;
+  tCursosEPesos *c = k;
+  int idade = 0;
+
+  for (int i = 0; i < tamanhos.max01; i++) {
+    for (int j = 0; j < tamanhos.max03; j++) {
+      if (x[j].codigo == k[i].codigo && k[i].codigo == 465) {
+        if (strcmp(x[j].vaga, "AC") == 0) {
+          bubblePont(tamanhos, lst, x);
+        } else if (strcmp(x[j].vaga, "L1") == 0) {
+          bubblePont(tamanhos, lst, x);
+        } else if (strcmp(x[j].vaga, "L3") == 0) {
+          bubblePont(tamanhos, lst, x);
+        } else if (strcmp(x[j].vaga, "L4") == 0) {
+          bubblePont(tamanhos, lst, x);
+        } else if (strcmp(x[j].vaga, "L5") == 0) {
+          bubblePont(tamanhos, lst, x);
+        } else if (strcmp(x[j].vaga, "L7") == 0) {
+          bubblePont(tamanhos, lst, x);
+        } else if (strcmp(x[j].vaga, "L8") == 0) {
+          bubblePont(tamanhos, lst, x);
+        } else if (strcmp(x[j].vaga, "L9") == 0) {
+          bubblePont(tamanhos, lst, x);
+        } else if (strcmp(x[j].vaga, "L11") == 0) {
+          bubblePont(tamanhos, lst, x);
+        } else if (strcmp(x[j].vaga, "L13") == 0) {
+          bubblePont(tamanhos, lst, x);
+        } else if (strcmp(x[j].vaga, "L15") == 0) {
+          bubblePont(tamanhos, lst, x);
+        }
+      }
+    }
+  }
+}
+

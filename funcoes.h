@@ -27,3 +27,22 @@ void alterarNotaRedacao(tTamanhos tamanhos, tAlteraRed *alteraRedacao,
 
 void procurarCandidato(tTamanhos tamanhos, int inscricao, tDados *dados,
                        tCursosEPesos *cursosEPesos);
+
+void menu0();
+
+void menu1();
+
+void imprimirPontuacao(tTamanhos tamanhos, tPontuacao *lst);
+
+void ordenaAlfabetica(tTamanhos tamanhos, tCursosEPesos *lst);
+
+void imprimirNome(tTamanhos tamanhos, tCursosEPesos *lst);
+
+void calculaIdade(tDados *lst, tTamanhos tamanhos);
+
+void trocaPont(tPontuacao *a, tPontuacao *b);
+
+void bubblePont(tTamanhos tamanhos, tPontuacao *lst, tDados *x);
+
+void ordenaPont(tPontuacao *lst, tDados *x, tTamanhos tamanhos, tCursosEPesos *k);
+

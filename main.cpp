@@ -3,12 +3,19 @@
 #include <stdlib.h>
 #include <string.h>
 
-int main()
-{
+int main() {
 
   tArquivos arquivosNomes;
   FILE *arquivo01, *arquivo02, *arquivo03, *arquivo04, *arquivo05;
   tTamanhos tamanhos;
+  int op = -1; // variável do menu
+
+  menu0();
+  scanf("%d", &op);
+  while (op != 0) {
+    menu0();
+    scanf("%d", &op);
+  }
 
   strcpy(arquivosNomes.nome01, "cursos_e_pesos.txt");
   strcpy(arquivosNomes.nome02, "cursos_e_vagas.txt");
@@ -21,13 +28,10 @@ int main()
   arquivo04 = fopen(arquivosNomes.nome04, "r");
   arquivo05 = fopen(arquivosNomes.nome05, "r");
 
-  if (!(arquivo01 && arquivo02 && arquivo04))
-  {
+  if (!(arquivo01 && arquivo02 && arquivo04)) {
     printf("Erro ao abrir os arquivos!");
     return 0;
-  }
-  else
-  {
+  } else {
     int x = fscanf(arquivo01, "%d", &tamanhos.max01);
     int y = fscanf(arquivo02, "%d", &tamanhos.max02);
     tamanhos.max03 = pegarTamanhoArquivoDados(arquivosNomes, tamanhos);
@@ -63,36 +67,34 @@ int main()
 
   calcularPontuacao(pontuacao, acertos, tamanhos, &mediaAcertos, &desvioPadrao,
                     dados, cursosEPesos);
+  calculaIdade(dados, tamanhos);
 
-  for (int i = 0; i < tamanhos.max04; i++)
-  {
-    if (pontuacao[i].inscricao == 548349)
-    {
-      printf("%d %.3f %.3f %.3f %.3f %d %s %.3f\n", pontuacao[i].inscricao,
-             pontuacao[i].pontuacaoV_lin, pontuacao[i].pontuacaoV_mat,
-             pontuacao[i].pontuacaoV_nat, pontuacao[i].pontuacaoV_hum,
-             pontuacao[i].red, pontuacao[i].vaga, pontuacao[i].notaFinal);
+  while (op != 5) {
+    menu1();
+    scanf("%d", &op);
+
+    if (op == 1) {
+    ordenaPont(pontuacao, dados, tamanhos, cursosEPesos);
+    
+     
+    }
+
+    if (op == 2) {
+      int inscricao;
+      printf("\nDigite a inscricao do aluno que deseja procurar: ");
+      scanf("%d", &inscricao);
+      procurarCandidato(tamanhos, inscricao, dados, cursosEPesos);
+    }
+    if (op == 3) {
+    }
+
+    if (op == 4) {
+      alterarNotaRedacao(tamanhos, alteraRedacao, acertos);
+
+      calcularPontuacao(pontuacao, acertos, tamanhos, &mediaAcertos,
+                        &desvioPadrao, dados, cursosEPesos);
     }
   }
-
-  alterarNotaRedacao(tamanhos, alteraRedacao, acertos);
-
-  calcularPontuacao(pontuacao, acertos, tamanhos, &mediaAcertos, &desvioPadrao,
-                    dados, cursosEPesos);
-
-  for (int i = 0; i < tamanhos.max04; i++)
-  {
-    if (pontuacao[i].inscricao == 548349)
-    {
-      printf("%d %.3f %.3f %.3f %.3f %d %s %.3f\n", pontuacao[i].inscricao,
-             pontuacao[i].pontuacaoV_lin, pontuacao[i].pontuacaoV_mat,
-             pontuacao[i].pontuacaoV_nat, pontuacao[i].pontuacaoV_hum,
-             pontuacao[i].red, pontuacao[i].vaga, pontuacao[i].notaFinal);
-    }
-  }
-
-  int inscricao = 547472;
-  procurarCandidato(tamanhos, inscricao, dados, cursosEPesos);
 
   return 0;
 }
