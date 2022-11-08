@@ -9,12 +9,21 @@ int main()
   tArquivos arquivosNomes;
   FILE *arquivo01, *arquivo02, *arquivo03, *arquivo04, *arquivo05;
   tTamanhos tamanhos;
+  int op = -1; // variável do menu
+
+  menu0();
+  scanf("%d", &op);
+  while (op != 0)
+  {
+    menu0();
+    scanf("%d", &op);
+  }
 
   strcpy(arquivosNomes.nome01, "cursos_e_pesos.txt");
   strcpy(arquivosNomes.nome02, "cursos_e_vagas.txt");
   strcpy(arquivosNomes.nome03, "dados.txt");
   strcpy(arquivosNomes.nome04, "acertos.txt");
-  strcpy(arquivosNomes.nome05, "alteraNotaRedacao.txt");
+  strcpy(arquivosNomes.nome05, "alteracaoNotaRedacao.txt");
 
   arquivo01 = fopen(arquivosNomes.nome01, "r");
   arquivo02 = fopen(arquivosNomes.nome02, "r");
@@ -63,36 +72,40 @@ int main()
 
   calcularPontuacao(pontuacao, acertos, tamanhos, &mediaAcertos, &desvioPadrao,
                     dados, cursosEPesos);
+  calculaIdade(dados, tamanhos);
 
-  for (int i = 0; i < tamanhos.max04; i++)
+  while (op != 5)
   {
-    if (pontuacao[i].inscricao == 548349)
+    menu1();
+    scanf("%d", &op);
+
+    if (op == 1)
     {
-      printf("%d %.3f %.3f %.3f %.3f %d %s %.3f\n", pontuacao[i].inscricao,
-             pontuacao[i].pontuacaoV_lin, pontuacao[i].pontuacaoV_mat,
-             pontuacao[i].pontuacaoV_nat, pontuacao[i].pontuacaoV_hum,
-             pontuacao[i].red, pontuacao[i].vaga, pontuacao[i].notaFinal);
+      ordenaPont(pontuacao, dados, tamanhos, cursosEPesos);
+      /*for (int i = 0; i < tamanhos.max04; i++) {
+        printf("%d %.3f\n", pontuacao[i].inscricao, pontuacao[i].notaFinal);
+      }*/
+    }
+
+    if (op == 2)
+    {
+      int inscricao;
+      printf("\nDigite a inscricao do aluno que deseja procurar: ");
+      scanf("%d", &inscricao);
+      procurarCandidato(tamanhos, inscricao, dados, cursosEPesos);
+    }
+    if (op == 3)
+    {
+    }
+
+    if (op == 4)
+    {
+      alterarNotaRedacao(tamanhos, alteraRedacao, acertos);
+
+      calcularPontuacao(pontuacao, acertos, tamanhos, &mediaAcertos,
+                        &desvioPadrao, dados, cursosEPesos);
     }
   }
-
-  alterarNotaRedacao(tamanhos, alteraRedacao, acertos);
-
-  calcularPontuacao(pontuacao, acertos, tamanhos, &mediaAcertos, &desvioPadrao,
-                    dados, cursosEPesos);
-
-  for (int i = 0; i < tamanhos.max04; i++)
-  {
-    if (pontuacao[i].inscricao == 548349)
-    {
-      printf("%d %.3f %.3f %.3f %.3f %d %s %.3f\n", pontuacao[i].inscricao,
-             pontuacao[i].pontuacaoV_lin, pontuacao[i].pontuacaoV_mat,
-             pontuacao[i].pontuacaoV_nat, pontuacao[i].pontuacaoV_hum,
-             pontuacao[i].red, pontuacao[i].vaga, pontuacao[i].notaFinal);
-    }
-  }
-
-  int inscricao = 547472;
-  procurarCandidato(tamanhos, inscricao, dados, cursosEPesos);
 
   return 0;
 }

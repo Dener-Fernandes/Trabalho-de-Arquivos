@@ -28,7 +28,7 @@ struct tCursosEVagas
 
 struct tDados
 {
-  int codigo, qtdInscritos, inscricao, dia, mes, ano;
+  int codigo, qtdInscritos, inscricao, dia, mes, ano, idade;
   char nome[MAX];
   char vaga[4];
 };

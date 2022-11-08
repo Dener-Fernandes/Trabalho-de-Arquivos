@@ -265,6 +265,7 @@ void procurarCandidato(tTamanhos tamanhos, int inscricao, tDados *dados,
   char nomeCandidato[MAX], nomeCurso[MAX];
   int diaInscricao, mesInscricao, anoInscricao;
   int codigoCurso;
+  int flag = 0;
 
   for (int i = 0; i < tamanhos.max03; i++)
   {
@@ -275,8 +276,14 @@ void procurarCandidato(tTamanhos tamanhos, int inscricao, tDados *dados,
       mesInscricao = dados[i].mes;
       anoInscricao = dados[i].ano;
       codigoCurso = dados[i].codigo;
+      flag = 1;
       break;
     }
+  }
+  if (flag == 0)
+  {
+    printf("Aluno não encontrado\n");
+    return;
   }
 
   for (int i = 0; i < tamanhos.max01; i++)
@@ -292,4 +299,248 @@ void procurarCandidato(tTamanhos tamanhos, int inscricao, tDados *dados,
          mesInscricao, anoInscricao, codigoCurso, nomeCurso);
 
   return;
+}
+
+void menu0()
+{
+  printf("*********** MENU ***********");
+  printf("\n0 - Ler arquivos de entrada");
+  printf("\n1 - Gerar arquivo de saída.txt");
+  printf("\n2 - Pesquisar candidatos");
+  printf("\n3 - Gerar arquivos dos candidatos não aprovados");
+  printf("\n4 - Alterar nota dos candidatos que entraram com recurso");
+  printf("\n5 - Encerrar programa\n");
+}
+
+void menu1()
+{
+  printf("*********** MENU ***********");
+  printf("\n1 - Gerar arquivo de saída.txt");
+  printf("\n2 - Pesquisar candidatos");
+  printf("\n3 - Gerar arquivos dos candidatos não aprovados");
+  printf("\n4 - Alterar nota dos candidatos que entraram com recurso");
+  printf("\n5 - Encerrar programa\n");
+}
+
+void imprimirPontuacao(tTamanhos tamanhos, tPontuacao *pontuacao)
+{
+
+  for (int i = 0; i < tamanhos.max04; i++)
+  {
+
+    printf("%d %.3f %.3f %.3f %.3f %d %s %.3f\n", pontuacao[i].inscricao,
+           pontuacao[i].pontuacaoV_lin, pontuacao[i].pontuacaoV_mat,
+           pontuacao[i].pontuacaoV_nat, pontuacao[i].pontuacaoV_hum,
+           pontuacao[i].red, pontuacao[i].vaga, pontuacao[i].notaFinal);
+  }
+}
+
+void ordenaAlfabetica(tTamanhos tamanhos, tCursosEPesos *cursosEPesos)
+{
+  char aux[MAX];
+  for (int j = 1; j < tamanhos.max01; j++)
+  {
+    for (int k = 0; k < tamanhos.max01 - j; k++)
+    {
+      if (strcmp(cursosEPesos[k].nome, cursosEPesos[j].nome) > 0)
+      {
+        strcpy(aux, cursosEPesos[k].nome);
+        strcpy(cursosEPesos[k].nome, cursosEPesos[j].nome);
+        strcpy(cursosEPesos[j].nome, aux);
+      }
+    }
+  }
+}
+
+void imprimirNome(tTamanhos tamanhos, tCursosEPesos *cursosEPesos)
+{
+  for (int j = 0; j < tamanhos.max01; j++)
+  {
+    printf(" %s\n", cursosEPesos[j].nome);
+  }
+}
+
+void calculaIdade(tDados *dados, tTamanhos tamanhos)
+{
+
+  for (int i = 0; i < tamanhos.max03; i++)
+  {
+    dados[i].idade = (dados[i].ano * 365) + (dados[i].mes * 30) + dados[i].dia;
+  }
+  return;
+}
+
+void trocaPont(tPontuacao *a, tPontuacao *b)
+{
+  tPontuacao *aux;
+  aux = a;
+  a = b;
+  b = aux;
+}
+
+void bubblePont(tTamanhos tamanhos, tPontuacao *&pontuacao, tDados *&dados)
+{
+  for (int i = 1; i < 30; i++)
+  {
+    for (int j = 0; j < 30 - i; j++)
+    {
+      if (pontuacao[j].notaFinal < pontuacao[j + 1].notaFinal)
+      {
+        tPontuacao aux = pontuacao[j];
+        pontuacao[j] = pontuacao[j + 1];
+        pontuacao[j + 1] = aux;
+        // trocaPont(&pontuacao[j], &pontuacao[j + 1]);
+      }
+    }
+  }
+  for (int i = 1; i < 30; i++)
+  {
+    for (int j = 0; j < 30 - i; j++)
+    {
+      if (pontuacao[j].notaFinal == pontuacao[j + 1].notaFinal &&
+          dados[j + 1].idade >= 21900 && dados[j].idade < dados[j + 1].idade)
+      {
+        tPontuacao aux = pontuacao[j];
+        pontuacao[j] = pontuacao[j + 1];
+        pontuacao[j + 1] = aux;
+        // trocaPont(&pontuacao[j], &pontuacao[j + 1]);
+      }
+    }
+  }
+
+  for (int i = 1; i < 30; i++)
+  {
+    for (int j = 0; j < 30 - i; j++)
+    {
+      if (pontuacao[j].notaFinal == pontuacao[j + 1].notaFinal &&
+          pontuacao[j].red < pontuacao[j + 1].red)
+      {
+        tPontuacao aux = pontuacao[j];
+        pontuacao[j] = pontuacao[j + 1];
+        pontuacao[j + 1] = aux;
+        // trocaPont(&pontuacao[j], &pontuacao[j + 1]);
+      }
+    }
+  }
+  for (int i = 1; i < 30; i++)
+  {
+    for (int j = 0; j < 30 - i; j++)
+    {
+      if (pontuacao[j].notaFinal == pontuacao[j + 1].notaFinal &&
+          pontuacao[j].pontuacaoV_lin < pontuacao[j + 1].pontuacaoV_lin)
+      {
+        tPontuacao aux = pontuacao[j];
+        pontuacao[j] = pontuacao[j + 1];
+        pontuacao[j + 1] = aux;
+      }
+      // trocaPont(&pontuacao[j], &pontuacao[j + 1]);
+    }
+  }
+  for (int i = 1; i < 30; i++)
+  {
+    for (int j = 0; j < 30 - i; j++)
+    {
+      if (pontuacao[j].notaFinal == pontuacao[j + 1].notaFinal &&
+          pontuacao[j].pontuacaoV_mat < pontuacao[j + 1].pontuacaoV_mat)
+      {
+        tPontuacao aux = pontuacao[j];
+        pontuacao[j] = pontuacao[j + 1];
+        pontuacao[j + 1] = aux;
+      }
+      // trocaPont(&pontuacao[j], &pontuacao[j + 1]);
+    }
+  }
+  for (int i = 1; i < 30; i++)
+  {
+    for (int j = 0; j < 30 - i; j++)
+    {
+      if (pontuacao[j].notaFinal == pontuacao[j + 1].notaFinal &&
+          pontuacao[j].pontuacaoV_hum < pontuacao[j + 1].pontuacaoV_hum)
+      {
+        tPontuacao aux = pontuacao[j];
+        pontuacao[j] = pontuacao[j + 1];
+        pontuacao[j + 1] = aux;
+      }
+      // trocaPont(&pontuacao[j], &pontuacao[j + 1]);
+    }
+  }
+  for (int i = 1; i < 30; i++)
+  {
+    for (int j = 0; j < 30 - i; j++)
+    {
+      if (pontuacao[j].notaFinal == pontuacao[j + 1].notaFinal &&
+          pontuacao[j].pontuacaoV_nat < pontuacao[j + 1].pontuacaoV_nat)
+      {
+        tPontuacao aux = pontuacao[j];
+        pontuacao[j] = pontuacao[j + 1];
+        pontuacao[j + 1] = aux;
+      }
+      // trocaPont(&pontuacao[j], &pontuacao[j + 1]);
+    }
+  }
+}
+
+void ordenaPont(tPontuacao *pontuacao, tDados *dados, tTamanhos tamanhos,
+                tCursosEPesos *cursosEPesos)
+{
+
+  for (int i = 0; i < tamanhos.max01; i++)
+  {
+    for (int j = 0; j < tamanhos.max03; j++)
+    {
+      if (dados[j].codigo == cursosEPesos[i].codigo)
+      {
+        if (strcmp(dados[j].vaga, "AC") == 0)
+        {
+          bubblePont(tamanhos, pontuacao, dados);
+        }
+        else if (strcmp(dados[j].vaga, "L1") == 0)
+        {
+          bubblePont(tamanhos, pontuacao, dados);
+        }
+        else if (strcmp(dados[j].vaga, "L3") == 0)
+        {
+          bubblePont(tamanhos, pontuacao, dados);
+        }
+        else if (strcmp(dados[j].vaga, "L4") == 0)
+        {
+          bubblePont(tamanhos, pontuacao, dados);
+        }
+        else if (strcmp(dados[j].vaga, "L5") == 0)
+        {
+          bubblePont(tamanhos, pontuacao, dados);
+        }
+        else if (strcmp(dados[j].vaga, "L7") == 0)
+        {
+          bubblePont(tamanhos, pontuacao, dados);
+        }
+        else if (strcmp(dados[j].vaga, "L8") == 0)
+        {
+          bubblePont(tamanhos, pontuacao, dados);
+        }
+        else if (strcmp(dados[j].vaga, "L9") == 0)
+        {
+          bubblePont(tamanhos, pontuacao, dados);
+        }
+        else if (strcmp(dados[j].vaga, "L11") == 0)
+        {
+          bubblePont(tamanhos, pontuacao, dados);
+        }
+        else if (strcmp(dados[j].vaga, "L13") == 0)
+        {
+          bubblePont(tamanhos, pontuacao, dados);
+        }
+        else if (strcmp(dados[j].vaga, "L15") == 0)
+        {
+          bubblePont(tamanhos, pontuacao, dados);
+        }
+      }
+    }
+  }
+
+  for (int i = 0; i < 30; i++)
+  {
+    printf("%d %.3f %s\n", pontuacao[i].inscricao, pontuacao[i].notaFinal,
+           pontuacao[i].vaga);
+  }
 }
