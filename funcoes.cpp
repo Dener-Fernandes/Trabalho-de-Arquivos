@@ -14,19 +14,19 @@ int pegarTamanhoArquivoDados(tArquivos arquivosNomes, tTamanhos tamanhos) {
     printf("Erro ao abrir o arquivo dados.txt");
     return 0;
   } else {
-    int x = fscanf(arquivo03, "%d %d", &codigoCurso, &tamanhos.max03);
+    fscanf(arquivo03, "%d %d", &codigoCurso, &tamanhos.max03);
 
     while (tamanhos.max03) {
       int dados;
       char dadosNome[MAX];
-      int x = fscanf(arquivo03, "%d %[^/0123456789] %d/%d/%d %s", &dados,
+      fscanf(arquivo03, "%d %[^/0123456789] %d/%d/%d %s", &dados,
                      dadosNome, &dados, &dados, &dados, dadosNome);
 
       i++;
       tamanhos.max03--;
 
       if (!tamanhos.max03) {
-        int x = fscanf(arquivo03, "%d %d", &codigoCurso, &tamanhos.max03);
+        fscanf(arquivo03, "%d %d", &codigoCurso, &tamanhos.max03);
       }
       dados = 0;
       strcpy(dadosNome, "");
@@ -55,14 +55,14 @@ int ler_e_inserir(tArquivos arquivosNomes, tTamanhos tamanhos,
     return 0;
   } else {
 
-    int x = fscanf(arquivo01, "%d", &tamanhos.max01);
-    int y = fscanf(arquivo02, "%d", &tamanhos.max02);
-    int z = fscanf(arquivo03, "%d %d", &codigoCurso, &tamanhos.max03);
-    int a = fscanf(arquivo04, "%d", &tamanhos.max04);
-    int b = fscanf(arquivo05, "%d", &tamanhos.max05);
+    fscanf(arquivo01, "%d", &tamanhos.max01);
+    fscanf(arquivo02, "%d", &tamanhos.max02);
+    fscanf(arquivo03, "%d %d", &codigoCurso, &tamanhos.max03);
+    fscanf(arquivo04, "%d", &tamanhos.max04);
+    fscanf(arquivo05, "%d", &tamanhos.max05);
 
     for (int i = 0; i < tamanhos.max01; i++) {
-      int x = fscanf(arquivo01, "%d %[^/0123456789] %d %d %d %d %d",
+      fscanf(arquivo01, "%d %[^/0123456789] %d %d %d %d %d",
                      &cursosEPesos[i].codigo, cursosEPesos[i].nome,
                      &cursosEPesos[i].red, &cursosEPesos[i].mat,
                      &cursosEPesos[i].lin, &cursosEPesos[i].hum,
@@ -70,7 +70,7 @@ int ler_e_inserir(tArquivos arquivosNomes, tTamanhos tamanhos,
     }
 
     for (int i = 0; i < tamanhos.max02; i++) {
-      int x = fscanf(
+      fscanf(
           arquivo02, "%d %d %d %d %d %d %d %d %d %d %d %d",
           &cursosEVagas[i].codigo, &cursosEVagas[i].ac, &cursosEVagas[i].l1,
           &cursosEVagas[i].l3, &cursosEVagas[i].l4, &cursosEVagas[i].l5,
@@ -84,7 +84,7 @@ int ler_e_inserir(tArquivos arquivosNomes, tTamanhos tamanhos,
 
       dados[i].codigo = codigoCurso;
 
-      int x = fscanf(arquivo03, "%d %[^/0123456789] %d/%d/%d %s",
+      fscanf(arquivo03, "%d %[^/0123456789] %d/%d/%d %s",
                      &dados[i].inscricao, dados[i].nome, &dados[i].dia,
                      &dados[i].mes, &dados[i].ano, dados[i].vaga);
 
@@ -92,13 +92,13 @@ int ler_e_inserir(tArquivos arquivosNomes, tTamanhos tamanhos,
       tamanhos.max03--;
 
       if (!tamanhos.max03) {
-        int x = fscanf(arquivo03, "%d %d", &codigoCurso, &tamanhos.max03);
+        fscanf(arquivo03, "%d %d", &codigoCurso, &tamanhos.max03);
         qtdInscritos = tamanhos.max03;
       }
     }
 
     for (int i = 0; i < tamanhos.max04; i++) {
-      int x = fscanf(arquivo04, "%d %d %d %d %d %d", &acertos[i].inscricao,
+      fscanf(arquivo04, "%d %d %d %d %d %d", &acertos[i].inscricao,
                      &acertos[i].v_lin, &acertos[i].v_mat, &acertos[i].v_nat,
                      &acertos[i].v_hum, &acertos[i].red);
     }

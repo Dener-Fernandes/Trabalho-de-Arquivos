@@ -32,11 +32,11 @@ int main() {
     printf("Erro ao abrir os arquivos!");
     return 0;
   } else {
-    int x = fscanf(arquivo01, "%d", &tamanhos.max01);
-    int y = fscanf(arquivo02, "%d", &tamanhos.max02);
+    fscanf(arquivo01, "%d", &tamanhos.max01);
+    fscanf(arquivo02, "%d", &tamanhos.max02);
     tamanhos.max03 = pegarTamanhoArquivoDados(arquivosNomes, tamanhos);
-    int z = fscanf(arquivo04, "%d", &tamanhos.max04);
-    int a = fscanf(arquivo05, "%d", &tamanhos.max05);
+    fscanf(arquivo04, "%d", &tamanhos.max04);
+    fscanf(arquivo05, "%d", &tamanhos.max05);
     fclose(arquivo01);
     fclose(arquivo02);
     fclose(arquivo04);
