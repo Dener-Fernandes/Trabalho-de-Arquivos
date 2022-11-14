@@ -470,7 +470,7 @@ void ordenarCursos(tCursosEPesos *cursosEPesos, tTamanhos tamanhos)
 void criarArquivoSaida01(tPontuacao *pontuacao, tCursosEPesos *cursosEPesos,
                          tCursosEVagas *cursosEVagas, tTamanhos tamanhos)
 {
-  FILE *s = fopen("saida1.txt", "a");
+  FILE *saida1 = fopen("saida1.txt", "a");
   fprintf(saida1, "/*LISTA GERAL CLASSIFICADO POR NOTA*/\n");
 
   for (int i = 0; i < tamanhos.max01; i++)
