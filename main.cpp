@@ -3,18 +3,16 @@
 #include <stdlib.h>
 #include <string.h>
 
-int main()
-{
+int main() {
 
   tArquivos arquivosNomes;
-  FILE *arquivo01, *arquivo02, *arquivo03, *arquivo04, *arquivo05;
+  FILE *arquivo01, *arquivo02, *arquivo04, *arquivo05;
   tTamanhos tamanhos;
   int op = -1; // variável do menu
 
   menu0();
   scanf("%d", &op);
-  while (op != 0)
-  {
+  while (op != 0) {
     menu0();
     scanf("%d", &op);
   }
@@ -30,13 +28,10 @@ int main()
   arquivo04 = fopen(arquivosNomes.nome04, "r");
   arquivo05 = fopen(arquivosNomes.nome05, "r");
 
-  if (!(arquivo01 && arquivo02 && arquivo04))
-  {
+  if (!(arquivo01 && arquivo02 && arquivo04)) {
     printf("Erro ao abrir os arquivos!");
     return 0;
-  }
-  else
-  {
+  } else {
     int x = fscanf(arquivo01, "%d", &tamanhos.max01);
     int y = fscanf(arquivo02, "%d", &tamanhos.max02);
     tamanhos.max03 = pegarTamanhoArquivoDados(arquivosNomes, tamanhos);
@@ -81,13 +76,11 @@ int main()
   tAprovados *aprovados =
       (tAprovados *)calloc(tamanhos.max06, sizeof(tAprovados));
 
-  while (op != 5)
-  {
+  while (op != 5) {
     menu1();
     scanf("%d", &op);
 
-    if (op == 1)
-    {
+    if (op == 1) {
 
       criarArquivoSaida01(pontuacao, cursosEPesos, cursosEVagas, tamanhos);
       criarListaAprovados(pontuacao, cursosEPesos, cursosEVagas, dados,
@@ -98,29 +91,23 @@ int main()
       }*/
     }
 
-    if (op == 2)
-    {
+    if (op == 2) {
       int inscricao;
       printf("\nDigite a inscricao do aluno que deseja procurar: ");
       scanf("%d", &inscricao);
       procurarCandidato(tamanhos, inscricao, dados, cursosEPesos);
     }
-    if (op == 3)
-    {
-      if (!aprovados[0].classificacao)
-      {
+    if (op == 3) {
+      if (!aprovados[0].classificacao) {
         criarListaAprovados(pontuacao, cursosEPesos, cursosEVagas, dados,
                             tamanhos, aprovados);
         criarArquivo02(pontuacao, cursosEPesos, dados, tamanhos, aprovados);
-      }
-      else
-      {
+      } else {
         criarArquivo02(pontuacao, cursosEPesos, dados, tamanhos, aprovados);
       }
     }
 
-    if (op == 4)
-    {
+    if (op == 4) {
       alterarNotaRedacao(tamanhos, alteraRedacao, acertos);
 
       calcularPontuacao(pontuacao, acertos, tamanhos, &mediaAcertos,
