@@ -11,7 +11,7 @@ struct tArquivos
 
 struct tTamanhos
 {
-  int max01, max02, max03, max04, max05;
+  int max01, max02, max03, max04, max05, max06;
 };
 
 struct tCursosEPesos
@@ -54,10 +54,16 @@ struct tPontuacao
   float pontuacaoV_lin, pontuacaoV_mat, pontuacaoV_nat, pontuacaoV_hum,
       notaFinal;
   char vaga[4];
-  int inscricao, classificacao, red;
+  int inscricao, classificacao, red, codigoCurso;
 };
 
 struct tAlteraRed
 {
   int inscricao, notaAntes, notaDepois;
+};
+
+struct tAprovados
+{
+  int codigoCurso, inscricao, classificacao;
+  char nome[MAX], vaga[4];
 };

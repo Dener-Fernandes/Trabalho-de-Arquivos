@@ -219,6 +219,8 @@ void calcularPontuacao(tPontuacao *pontuacao, tAcertos *acertos,
       }
     }
 
+    pontuacao[i].codigoCurso = codigoCurso;
+
     for (int k = 0; k < tamanhos.max01; k++)
     {
       if (codigoCurso == cursosEPesos[k].codigo)
@@ -328,7 +330,7 @@ void imprimirPontuacao(tTamanhos tamanhos, tPontuacao *pontuacao)
   for (int i = 0; i < tamanhos.max04; i++)
   {
 
-    printf("%d %.3f %.3f %.3f %.3f %d %s %.3f\n", pontuacao[i].inscricao,
+    printf("%d %.2f %.2f %.2f %.2f %d %s %.2f\n", pontuacao[i].inscricao,
            pontuacao[i].pontuacaoV_lin, pontuacao[i].pontuacaoV_mat,
            pontuacao[i].pontuacaoV_nat, pontuacao[i].pontuacaoV_hum,
            pontuacao[i].red, pontuacao[i].vaga, pontuacao[i].notaFinal);
@@ -370,19 +372,11 @@ void calculaIdade(tDados *dados, tTamanhos tamanhos)
   return;
 }
 
-void trocaPont(tPontuacao *a, tPontuacao *b)
-{
-  tPontuacao *aux;
-  aux = a;
-  a = b;
-  b = aux;
-}
-
 void bubblePont(tTamanhos tamanhos, tPontuacao *&pontuacao, tDados *&dados)
 {
-  for (int i = 1; i < 30; i++)
+  for (int i = 1; i < 100; i++)
   {
-    for (int j = 0; j < 30 - i; j++)
+    for (int j = 0; j < 100 - i; j++)
     {
       if (pontuacao[j].notaFinal < pontuacao[j + 1].notaFinal)
       {
@@ -391,91 +385,6 @@ void bubblePont(tTamanhos tamanhos, tPontuacao *&pontuacao, tDados *&dados)
         pontuacao[j + 1] = aux;
         // trocaPont(&pontuacao[j], &pontuacao[j + 1]);
       }
-    }
-  }
-  for (int i = 1; i < 30; i++)
-  {
-    for (int j = 0; j < 30 - i; j++)
-    {
-      if (pontuacao[j].notaFinal == pontuacao[j + 1].notaFinal &&
-          dados[j + 1].idade >= 21900 && dados[j].idade < dados[j + 1].idade)
-      {
-        tPontuacao aux = pontuacao[j];
-        pontuacao[j] = pontuacao[j + 1];
-        pontuacao[j + 1] = aux;
-        // trocaPont(&pontuacao[j], &pontuacao[j + 1]);
-      }
-    }
-  }
-
-  for (int i = 1; i < 30; i++)
-  {
-    for (int j = 0; j < 30 - i; j++)
-    {
-      if (pontuacao[j].notaFinal == pontuacao[j + 1].notaFinal &&
-          pontuacao[j].red < pontuacao[j + 1].red)
-      {
-        tPontuacao aux = pontuacao[j];
-        pontuacao[j] = pontuacao[j + 1];
-        pontuacao[j + 1] = aux;
-        // trocaPont(&pontuacao[j], &pontuacao[j + 1]);
-      }
-    }
-  }
-  for (int i = 1; i < 30; i++)
-  {
-    for (int j = 0; j < 30 - i; j++)
-    {
-      if (pontuacao[j].notaFinal == pontuacao[j + 1].notaFinal &&
-          pontuacao[j].pontuacaoV_lin < pontuacao[j + 1].pontuacaoV_lin)
-      {
-        tPontuacao aux = pontuacao[j];
-        pontuacao[j] = pontuacao[j + 1];
-        pontuacao[j + 1] = aux;
-      }
-      // trocaPont(&pontuacao[j], &pontuacao[j + 1]);
-    }
-  }
-  for (int i = 1; i < 30; i++)
-  {
-    for (int j = 0; j < 30 - i; j++)
-    {
-      if (pontuacao[j].notaFinal == pontuacao[j + 1].notaFinal &&
-          pontuacao[j].pontuacaoV_mat < pontuacao[j + 1].pontuacaoV_mat)
-      {
-        tPontuacao aux = pontuacao[j];
-        pontuacao[j] = pontuacao[j + 1];
-        pontuacao[j + 1] = aux;
-      }
-      // trocaPont(&pontuacao[j], &pontuacao[j + 1]);
-    }
-  }
-  for (int i = 1; i < 30; i++)
-  {
-    for (int j = 0; j < 30 - i; j++)
-    {
-      if (pontuacao[j].notaFinal == pontuacao[j + 1].notaFinal &&
-          pontuacao[j].pontuacaoV_hum < pontuacao[j + 1].pontuacaoV_hum)
-      {
-        tPontuacao aux = pontuacao[j];
-        pontuacao[j] = pontuacao[j + 1];
-        pontuacao[j + 1] = aux;
-      }
-      // trocaPont(&pontuacao[j], &pontuacao[j + 1]);
-    }
-  }
-  for (int i = 1; i < 30; i++)
-  {
-    for (int j = 0; j < 30 - i; j++)
-    {
-      if (pontuacao[j].notaFinal == pontuacao[j + 1].notaFinal &&
-          pontuacao[j].pontuacaoV_nat < pontuacao[j + 1].pontuacaoV_nat)
-      {
-        tPontuacao aux = pontuacao[j];
-        pontuacao[j] = pontuacao[j + 1];
-        pontuacao[j + 1] = aux;
-      }
-      // trocaPont(&pontuacao[j], &pontuacao[j + 1]);
     }
   }
 }
@@ -537,10 +446,665 @@ void ordenaPont(tPontuacao *pontuacao, tDados *dados, tTamanhos tamanhos,
       }
     }
   }
+}
 
-  for (int i = 0; i < 30; i++)
+void ordenarCursos(tCursosEPesos *cursosEPesos, tTamanhos tamanhos)
+{
+  for (int i = 1; i < tamanhos.max01; i++)
   {
-    printf("%d %.3f %s\n", pontuacao[i].inscricao, pontuacao[i].notaFinal,
-           pontuacao[i].vaga);
+    for (int j = 0; j < tamanhos.max01 - i; j++)
+    {
+      if (cursosEPesos[j].codigo > cursosEPesos[j + 1].codigo)
+      {
+        tCursosEPesos aux;
+        aux = cursosEPesos[j];
+        cursosEPesos[j] = cursosEPesos[j + 1];
+        cursosEPesos[j + 1] = aux;
+      }
+    }
   }
+
+  return;
+}
+
+void criarArquivoSaida01(tPontuacao *pontuacao, tCursosEPesos *cursosEPesos,
+                         tCursosEVagas *cursosEVagas, tTamanhos tamanhos)
+{
+  FILE *s = fopen("saida1.txt", "a");
+  fprintf(saida1, "/*LISTA GERAL CLASSIFICADO POR NOTA*/\n");
+
+  for (int i = 0; i < tamanhos.max01; i++)
+  {
+    tCursosEPesos curso = cursosEPesos[i];
+
+    fprintf(saida1, "%d %s\n", curso.codigo, curso.nome);
+
+    tCursosEVagas cursoEVaga;
+
+    for (int j = 0; j < tamanhos.max02; j++)
+    {
+      if (curso.codigo == cursosEVagas[j].codigo)
+      {
+        cursoEVaga = cursosEVagas[i];
+        break;
+      }
+    }
+
+    int countAc = 0, countL1 = 0, countL3 = 0, countL4 = 0, countL5 = 0,
+        countL7 = 0, countL8 = 0, countL9 = 0, countL11 = 0, countL13 = 0,
+        countL15 = 0;
+
+    fprintf(saida1,
+            "INSC	   V_LIN	V_MAT	V_NAT	V_HUM	   RED COTA "
+            "NOTA FINAL	CLASSIFICAÇÃO\n");
+
+    for (int a = 0; a < 100; a++)
+    {
+
+      if (pontuacao[a].codigoCurso == curso.codigo &&
+          countAc < (cursoEVaga.ac) && !(strcmp(pontuacao[a].vaga, "AC")))
+      {
+        countAc++;
+
+        fprintf(saida1,
+                "%d	 %.2f	%.2f %.2f %.2f %d %s %.2f             %d\n",
+                pontuacao[a].inscricao, pontuacao[a].pontuacaoV_lin,
+                pontuacao[a].pontuacaoV_mat, pontuacao[a].pontuacaoV_nat,
+                pontuacao[a].pontuacaoV_hum, pontuacao[a].red,
+                pontuacao[a].vaga, pontuacao[a].notaFinal, countAc);
+      }
+    }
+
+    for (int a = 0; a < 100; a++)
+    {
+      if (pontuacao[a].codigoCurso == curso.codigo &&
+          countL3 < (cursoEVaga.l3) && !(strcmp(pontuacao[a].vaga, "L3")))
+      {
+        countL3++;
+
+        fprintf(saida1, "%d  %.2f %.2f %.2f %.2f %d %s %.2f             %d\n",
+                pontuacao[a].inscricao, pontuacao[a].pontuacaoV_lin,
+                pontuacao[a].pontuacaoV_mat, pontuacao[a].pontuacaoV_nat,
+                pontuacao[a].pontuacaoV_hum, pontuacao[a].red,
+                pontuacao[a].vaga, pontuacao[a].notaFinal, countL3);
+      }
+    }
+
+    for (int a = 0; a < 100; a++)
+    {
+
+      if (pontuacao[a].codigoCurso == curso.codigo &&
+          countL4 < (cursoEVaga.l4) && !(strcmp(pontuacao[a].vaga, "L4")))
+      {
+        countL4++;
+
+        fprintf(saida1, "%d  %.2f %.2f %.2f %.2f %d %s %.2f             %d\n",
+                pontuacao[a].inscricao, pontuacao[a].pontuacaoV_lin,
+                pontuacao[a].pontuacaoV_mat, pontuacao[a].pontuacaoV_nat,
+                pontuacao[a].pontuacaoV_hum, pontuacao[a].red,
+                pontuacao[a].vaga, pontuacao[a].notaFinal, countL4);
+      }
+    }
+    for (int a = 0; a < 100; a++)
+    {
+
+      if (pontuacao[a].codigoCurso == curso.codigo &&
+          countL5 < (cursoEVaga.l5) && !(strcmp(pontuacao[a].vaga, "L5")))
+      {
+        countL5++;
+
+        fprintf(saida1, "%d  %.2f %.2f %.2f %.2f %d %s %.2f             %d\n",
+                pontuacao[a].inscricao, pontuacao[a].pontuacaoV_lin,
+                pontuacao[a].pontuacaoV_mat, pontuacao[a].pontuacaoV_nat,
+                pontuacao[a].pontuacaoV_hum, pontuacao[a].red,
+                pontuacao[a].vaga, pontuacao[a].notaFinal, countL5);
+      }
+    }
+
+    for (int a = 0; a < 100; a++)
+    {
+
+      if (pontuacao[a].codigoCurso == curso.codigo &&
+          countL7 < (cursoEVaga.l7) && !(strcmp(pontuacao[a].vaga, "L7")))
+      {
+        countL7++;
+
+        fprintf(saida1, "%d  %.2f %.2f %.2f %.2f %d %s %.2f             %d\n",
+                pontuacao[a].inscricao, pontuacao[a].pontuacaoV_lin,
+                pontuacao[a].pontuacaoV_mat, pontuacao[a].pontuacaoV_nat,
+                pontuacao[a].pontuacaoV_hum, pontuacao[a].red,
+                pontuacao[a].vaga, pontuacao[a].notaFinal, countL7);
+      }
+    }
+    for (int a = 0; a < 100; a++)
+    {
+
+      if (pontuacao[a].codigoCurso == curso.codigo &&
+          countL8 < (cursoEVaga.l8) && !(strcmp(pontuacao[a].vaga, "L8")))
+      {
+        countL8++;
+
+        fprintf(saida1, "%d  %.2f %.2f %.2f %.2f %d %s %.2f             %d\n",
+                pontuacao[a].inscricao, pontuacao[a].pontuacaoV_lin,
+                pontuacao[a].pontuacaoV_mat, pontuacao[a].pontuacaoV_nat,
+                pontuacao[a].pontuacaoV_hum, pontuacao[a].red,
+                pontuacao[a].vaga, pontuacao[a].notaFinal, countL8);
+      }
+    }
+    for (int a = 0; a < 100; a++)
+    {
+
+      if (pontuacao[a].codigoCurso == curso.codigo &&
+          countL9 < (cursoEVaga.l9) && !(strcmp(pontuacao[a].vaga, "L9")))
+      {
+        countL9++;
+
+        fprintf(saida1, "%d  %.2f %.2f %.2f %.2f %d %s %.2f             %d\n",
+                pontuacao[a].inscricao, pontuacao[a].pontuacaoV_lin,
+                pontuacao[a].pontuacaoV_mat, pontuacao[a].pontuacaoV_nat,
+                pontuacao[a].pontuacaoV_hum, pontuacao[a].red,
+                pontuacao[a].vaga, pontuacao[a].notaFinal, countL9);
+      }
+    }
+    for (int a = 0; a < 100; a++)
+    {
+
+      if (pontuacao[a].codigoCurso == curso.codigo &&
+          countL11 < (cursoEVaga.l11) && !(strcmp(pontuacao[a].vaga, "L11")))
+      {
+        countL11++;
+
+        fprintf(saida1, "%d  %.2f %.2f %.2f %.2f %d %s %.2f             %d\n",
+                pontuacao[a].inscricao, pontuacao[a].pontuacaoV_lin,
+                pontuacao[a].pontuacaoV_mat, pontuacao[a].pontuacaoV_nat,
+                pontuacao[a].pontuacaoV_hum, pontuacao[a].red,
+                pontuacao[a].vaga, pontuacao[a].notaFinal, countL11);
+      }
+    }
+    for (int a = 0; a < 100; a++)
+    {
+
+      if (pontuacao[a].codigoCurso == curso.codigo &&
+          countL13 < (cursoEVaga.l13) && !(strcmp(pontuacao[a].vaga, "L13")))
+      {
+        countL13++;
+
+        fprintf(saida1, "%d  %.2f %.2f %.2f %.2f %d %s %.2f             %d\n",
+                pontuacao[a].inscricao, pontuacao[a].pontuacaoV_lin,
+                pontuacao[a].pontuacaoV_mat, pontuacao[a].pontuacaoV_nat,
+                pontuacao[a].pontuacaoV_hum, pontuacao[a].red,
+                pontuacao[a].vaga, pontuacao[a].notaFinal, countL13);
+      }
+    }
+
+    for (int a = 0; a < 100; a++)
+    {
+
+      if (pontuacao[a].codigoCurso == curso.codigo &&
+          countL15 < (cursoEVaga.l15) && !(strcmp(pontuacao[a].vaga, "L15")))
+      {
+        countL15++;
+
+        fprintf(saida1, "%d  %.2f %.2f %.2f %.2f %d %s %.2f             %d\n",
+                pontuacao[a].inscricao, pontuacao[a].pontuacaoV_lin,
+                pontuacao[a].pontuacaoV_mat, pontuacao[a].pontuacaoV_nat,
+                pontuacao[a].pontuacaoV_hum, pontuacao[a].red,
+                pontuacao[a].vaga, pontuacao[a].notaFinal, countL15);
+      }
+    }
+    fprintf(saida1, "\n");
+  }
+
+  fclose(saida1);
+  return;
+}
+
+int pegarTamanhoAprovados(tPontuacao *pontuacao, tCursosEPesos *cursosEPesos,
+                          tCursosEVagas *cursosEVagas, tTamanhos tamanhos)
+{
+
+  int totalAprovados = 0;
+
+  for (int i = 0; i < tamanhos.max01; i++)
+  {
+    tCursosEPesos curso = cursosEPesos[i];
+
+    tCursosEVagas cursoEVaga;
+
+    for (int j = 0; j < tamanhos.max02; j++)
+    {
+      if (curso.codigo == cursosEVagas[j].codigo)
+      {
+        cursoEVaga = cursosEVagas[i];
+        break;
+      }
+    }
+
+    int countAc = 0, countL1 = 0, countL3 = 0, countL4 = 0, countL5 = 0,
+        countL7 = 0, countL8 = 0, countL9 = 0, countL11 = 0, countL13 = 0,
+        countL15 = 0;
+
+    for (int a = 0; a < 100; a++)
+    {
+
+      if (pontuacao[a].codigoCurso == curso.codigo &&
+          countAc < (cursoEVaga.ac) && !(strcmp(pontuacao[a].vaga, "AC")))
+      {
+        countAc++;
+        totalAprovados++;
+      }
+    }
+
+    for (int a = 0; a < 100; a++)
+    {
+      if (pontuacao[a].codigoCurso == curso.codigo &&
+          countL3 < (cursoEVaga.l3) && !(strcmp(pontuacao[a].vaga, "L3")))
+      {
+        countL3++;
+        totalAprovados++;
+      }
+    }
+
+    for (int a = 0; a < 100; a++)
+    {
+
+      if (pontuacao[a].codigoCurso == curso.codigo &&
+          countL4 < (cursoEVaga.l4) && !(strcmp(pontuacao[a].vaga, "L4")))
+      {
+        countL4++;
+        totalAprovados++;
+      }
+    }
+    for (int a = 0; a < 100; a++)
+    {
+
+      if (pontuacao[a].codigoCurso == curso.codigo &&
+          countL5 < (cursoEVaga.l5) && !(strcmp(pontuacao[a].vaga, "L5")))
+      {
+        countL5++;
+        totalAprovados++;
+      }
+    }
+
+    for (int a = 0; a < 100; a++)
+    {
+
+      if (pontuacao[a].codigoCurso == curso.codigo &&
+          countL7 < (cursoEVaga.l7) && !(strcmp(pontuacao[a].vaga, "L7")))
+      {
+        countL7++;
+        totalAprovados++;
+      }
+    }
+
+    for (int a = 0; a < 100; a++)
+    {
+
+      if (pontuacao[a].codigoCurso == curso.codigo &&
+          countL8 < (cursoEVaga.l8) && !(strcmp(pontuacao[a].vaga, "L8")))
+      {
+        countL8++;
+        totalAprovados++;
+      }
+    }
+
+    for (int a = 0; a < 100; a++)
+    {
+
+      if (pontuacao[a].codigoCurso == curso.codigo &&
+          countL9 < (cursoEVaga.l9) && !(strcmp(pontuacao[a].vaga, "L9")))
+      {
+        countL9++;
+        totalAprovados++;
+      }
+    }
+
+    for (int a = 0; a < 100; a++)
+    {
+
+      if (pontuacao[a].codigoCurso == curso.codigo &&
+          countL11 < (cursoEVaga.l11) && !(strcmp(pontuacao[a].vaga, "L11")))
+      {
+        countL11++;
+        totalAprovados++;
+      }
+    }
+    for (int a = 0; a < 100; a++)
+    {
+
+      if (pontuacao[a].codigoCurso == curso.codigo &&
+          countL13 < (cursoEVaga.l13) && !(strcmp(pontuacao[a].vaga, "L13")))
+      {
+        countL13++;
+        totalAprovados++;
+      }
+    }
+
+    for (int a = 0; a < 100; a++)
+    {
+
+      if (pontuacao[a].codigoCurso == curso.codigo &&
+          countL15 < (cursoEVaga.l15) && !(strcmp(pontuacao[a].vaga, "L15")))
+      {
+        countL15++;
+        totalAprovados++;
+      }
+    }
+  }
+
+  return totalAprovados;
+}
+
+void criarListaAprovados(tPontuacao *pontuacao, tCursosEPesos *cursosEPesos,
+                         tCursosEVagas *cursosEVagas, tDados *dados,
+                         tTamanhos tamanhos, tAprovados *aprovados)
+{
+  int index = 0;
+
+  for (int i = 0; i < tamanhos.max01; i++)
+  {
+    tCursosEPesos curso = cursosEPesos[i];
+
+    tCursosEVagas cursoEVaga;
+
+    for (int j = 0; j < tamanhos.max02; j++)
+    {
+      if (curso.codigo == cursosEVagas[j].codigo)
+      {
+        cursoEVaga = cursosEVagas[i];
+        break;
+      }
+    }
+
+    int countAc = 0, countL1 = 0, countL3 = 0, countL4 = 0, countL5 = 0,
+        countL7 = 0, countL8 = 0, countL9 = 0, countL11 = 0, countL13 = 0,
+        countL15 = 0;
+
+    for (int a = 0; a < 100; a++)
+    {
+
+      if (pontuacao[a].codigoCurso == curso.codigo &&
+          countAc < (cursoEVaga.ac) && !(strcmp(pontuacao[a].vaga, "AC")))
+      {
+        countAc++;
+        aprovados[index].codigoCurso = pontuacao[a].codigoCurso;
+        aprovados[index].inscricao = pontuacao[a].inscricao;
+        aprovados[index].classificacao = countAc;
+        strcpy(aprovados[index].vaga, pontuacao[a].vaga);
+
+        for (int c = 0; c < tamanhos.max03; c++)
+        {
+          if (dados[c].inscricao == pontuacao[a].inscricao)
+          {
+            strcpy(aprovados[index].nome, dados[c].nome);
+          }
+        }
+
+        // fprintf(arquivoTeste, "%d %d %s %d\n", curso.codigo,
+        //      pontuacao[a].inscricao, pontuacao[a].vaga, countAc);
+
+        index++;
+      }
+    }
+
+    for (int a = 0; a < 100; a++)
+    {
+      if (pontuacao[a].codigoCurso == curso.codigo &&
+          countL3 < (cursoEVaga.l3) && !(strcmp(pontuacao[a].vaga, "L3")))
+      {
+        countL3++;
+
+        aprovados[index].codigoCurso = pontuacao[a].codigoCurso;
+        aprovados[index].inscricao = pontuacao[a].inscricao;
+        aprovados[index].classificacao = countL3;
+        strcpy(aprovados[index].vaga, pontuacao[a].vaga);
+
+        for (int c = 0; c < tamanhos.max03; c++)
+        {
+          if (dados[c].inscricao == pontuacao[a].inscricao)
+          {
+            strcpy(aprovados[index].nome, dados[c].nome);
+          }
+        }
+
+        index++;
+      }
+    }
+
+    for (int a = 0; a < 100; a++)
+    {
+
+      if (pontuacao[a].codigoCurso == curso.codigo &&
+          countL4 < (cursoEVaga.l4) && !(strcmp(pontuacao[a].vaga, "L4")))
+      {
+        countL4++;
+        aprovados[index].codigoCurso = pontuacao[a].codigoCurso;
+        aprovados[index].inscricao = pontuacao[a].inscricao;
+        aprovados[index].classificacao = countL4;
+        strcpy(aprovados[index].vaga, pontuacao[a].vaga);
+
+        for (int c = 0; c < tamanhos.max03; c++)
+        {
+          if (dados[c].inscricao == pontuacao[a].inscricao)
+          {
+            strcpy(aprovados[index].nome, dados[c].nome);
+          }
+        }
+
+        index++;
+      }
+    }
+    for (int a = 0; a < 100; a++)
+    {
+
+      if (pontuacao[a].codigoCurso == curso.codigo &&
+          countL5 < (cursoEVaga.l5) && !(strcmp(pontuacao[a].vaga, "L5")))
+      {
+        countL5++;
+        aprovados[index].codigoCurso = pontuacao[a].codigoCurso;
+        aprovados[index].inscricao = pontuacao[a].inscricao;
+        aprovados[index].classificacao = countL5;
+        strcpy(aprovados[index].vaga, pontuacao[a].vaga);
+
+        for (int c = 0; c < tamanhos.max03; c++)
+        {
+          if (dados[c].inscricao == pontuacao[a].inscricao)
+          {
+            strcpy(aprovados[index].nome, dados[c].nome);
+          }
+        }
+
+        index++;
+      }
+    }
+
+    for (int a = 0; a < 100; a++)
+    {
+
+      if (pontuacao[a].codigoCurso == curso.codigo &&
+          countL7 < (cursoEVaga.l7) && !(strcmp(pontuacao[a].vaga, "L7")))
+      {
+        countL7++;
+        aprovados[index].codigoCurso = pontuacao[a].codigoCurso;
+        aprovados[index].inscricao = pontuacao[a].inscricao;
+        aprovados[index].classificacao = countL7;
+        strcpy(aprovados[index].vaga, pontuacao[a].vaga);
+
+        for (int c = 0; c < tamanhos.max03; c++)
+        {
+          if (dados[c].inscricao == pontuacao[a].inscricao)
+          {
+            strcpy(aprovados[index].nome, dados[c].nome);
+          }
+        }
+
+        index++;
+      }
+    }
+    for (int a = 0; a < 100; a++)
+    {
+
+      if (pontuacao[a].codigoCurso == curso.codigo &&
+          countL8 < (cursoEVaga.l8) && !(strcmp(pontuacao[a].vaga, "L8")))
+      {
+        countL8++;
+        aprovados[index].codigoCurso = pontuacao[a].codigoCurso;
+        aprovados[index].inscricao = pontuacao[a].inscricao;
+        aprovados[index].classificacao = countL8;
+        strcpy(aprovados[index].vaga, pontuacao[a].vaga);
+
+        for (int c = 0; c < tamanhos.max03; c++)
+        {
+          if (dados[c].inscricao == pontuacao[a].inscricao)
+          {
+            strcpy(aprovados[index].nome, dados[c].nome);
+          }
+        }
+        index++;
+      }
+    }
+    for (int a = 0; a < 100; a++)
+    {
+
+      if (pontuacao[a].codigoCurso == curso.codigo &&
+          countL9 < (cursoEVaga.l9) && !(strcmp(pontuacao[a].vaga, "L9")))
+      {
+        countL9++;
+        aprovados[index].codigoCurso = pontuacao[a].codigoCurso;
+        aprovados[index].inscricao = pontuacao[a].inscricao;
+        aprovados[index].classificacao = countL9;
+        strcpy(aprovados[index].vaga, pontuacao[a].vaga);
+
+        for (int c = 0; c < tamanhos.max03; c++)
+        {
+          if (dados[c].inscricao == pontuacao[a].inscricao)
+          {
+            strcpy(aprovados[index].nome, dados[c].nome);
+          }
+        }
+
+        index++;
+      }
+    }
+
+    for (int a = 0; a < 100; a++)
+    {
+
+      if (pontuacao[a].codigoCurso == curso.codigo &&
+          countL11 < (cursoEVaga.l11) && !(strcmp(pontuacao[a].vaga, "L11")))
+      {
+        countL11++;
+        aprovados[index].codigoCurso = pontuacao[a].codigoCurso;
+        aprovados[index].inscricao = pontuacao[a].inscricao;
+        aprovados[index].classificacao = countL11;
+        strcpy(aprovados[index].vaga, pontuacao[a].vaga);
+
+        for (int c = 0; c < tamanhos.max03; c++)
+        {
+          if (dados[c].inscricao == pontuacao[a].inscricao)
+          {
+            strcpy(aprovados[index].nome, dados[c].nome);
+          }
+        }
+
+        index++;
+      }
+    }
+
+    for (int a = 0; a < 100; a++)
+    {
+
+      if (pontuacao[a].codigoCurso == curso.codigo &&
+          countL13 < (cursoEVaga.l13) && !(strcmp(pontuacao[a].vaga, "L13")))
+      {
+        countL13++;
+        aprovados[index].codigoCurso = pontuacao[a].codigoCurso;
+        aprovados[index].inscricao = pontuacao[a].inscricao;
+        aprovados[index].classificacao = countL13;
+        strcpy(aprovados[index].vaga, pontuacao[a].vaga);
+
+        for (int c = 0; c < tamanhos.max03; c++)
+        {
+          if (dados[c].inscricao == pontuacao[a].inscricao)
+          {
+            strcpy(aprovados[index].nome, dados[c].nome);
+          }
+        }
+
+        index++;
+      }
+    }
+
+    for (int a = 0; a < 100; a++)
+    {
+
+      if (pontuacao[a].codigoCurso == curso.codigo &&
+          countL15 < (cursoEVaga.l15) && !(strcmp(pontuacao[a].vaga, "L15")))
+      {
+        countL15++;
+        aprovados[index].codigoCurso = pontuacao[a].codigoCurso;
+        aprovados[index].inscricao = pontuacao[a].inscricao;
+        aprovados[index].classificacao = countL15;
+        strcpy(aprovados[index].vaga, pontuacao[a].vaga);
+
+        for (int c = 0; c < tamanhos.max03; c++)
+        {
+          if (dados[c].inscricao == pontuacao[a].inscricao)
+          {
+            strcpy(aprovados[index].nome, dados[c].nome);
+          }
+        }
+
+        index++;
+      }
+    }
+  }
+  return;
+}
+void criarArquivo02(tPontuacao *pontuacao, tCursosEPesos *cursosEPesos,
+                    tDados *dados, tTamanhos tamanhos, tAprovados *aprovados)
+{
+  int index = 0;
+
+  FILE *saida02 = fopen("saida2.txt", "a");
+
+  fprintf(saida02, ".+*******+.NAO APROVADOS.+*******+.\n");
+
+  for (int i = 0; i < tamanhos.max01; i++)
+  {
+    tCursosEPesos curso = cursosEPesos[i];
+
+    fprintf(saida02, "%d %s\n", curso.codigo, curso.nome);
+
+    for (int j = 0; j < 100; j++)
+    {
+      bool flag = true;
+      for (int k = 0; k < tamanhos.max06; k++)
+      {
+        if (pontuacao[j].inscricao == aprovados[k].inscricao)
+        {
+          flag = false;
+        }
+      }
+
+      if (flag && pontuacao[j].codigoCurso == curso.codigo)
+      {
+        char nome[80];
+
+        for (int a = 0; a < tamanhos.max03; a++)
+        {
+          if (pontuacao[j].inscricao == dados[a].inscricao)
+          {
+            strcpy(nome, dados[a].nome);
+          }
+        }
+        fprintf(saida02, "%d %s\n", pontuacao[j].inscricao, nome);
+      }
+    }
+
+    fprintf(saida02, "\n");
+  }
+
+  fclose(saida02);
+  return;
 }

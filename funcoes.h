@@ -46,3 +46,17 @@ void bubblePont(tTamanhos tamanhos, tPontuacao *&pontuacao, tDados *&dados);
 
 void ordenaPont(tPontuacao *pontuacao, tDados *dados, tTamanhos tamanhos,
                 tCursosEPesos *cursosEPesos);
+
+void criarArquivoSaida01(tPontuacao *pontuacao, tCursosEPesos *cursosEPesos,
+                         tCursosEVagas *cursosEVagas, tTamanhos tamanhos);
+void criarArquivo02(tPontuacao *pontuacao, tCursosEPesos *cursosEPesos,
+                    tDados *dados, tTamanhos tamanhos, tAprovados *aprovados);
+
+int pegarTamanhoAprovados(tPontuacao *pontuacao, tCursosEPesos *cursosEPesos,
+                          tCursosEVagas *cursosEVagas, tTamanhos tamanhos);
+
+void criarListaAprovados(tPontuacao *pontuacao, tCursosEPesos *cursosEPesos,
+                         tCursosEVagas *cursosEVagas, tDados *dados,
+                         tTamanhos tamanhos, tAprovados *aprovados);
+
+void ordenarCursos(tCursosEPesos *cursosEPesos, tTamanhos tamanhos);

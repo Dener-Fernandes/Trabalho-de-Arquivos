@@ -72,7 +72,14 @@ int main()
 
   calcularPontuacao(pontuacao, acertos, tamanhos, &mediaAcertos, &desvioPadrao,
                     dados, cursosEPesos);
-  calculaIdade(dados, tamanhos);
+  // calculaIdade(dados, tamanhos);
+  ordenaPont(pontuacao, dados, tamanhos, cursosEPesos);
+  ordenarCursos(cursosEPesos, tamanhos);
+  tamanhos.max06 =
+      pegarTamanhoAprovados(pontuacao, cursosEPesos, cursosEVagas, tamanhos);
+
+  tAprovados *aprovados =
+      (tAprovados *)calloc(tamanhos.max06, sizeof(tAprovados));
 
   while (op != 5)
   {
@@ -81,9 +88,13 @@ int main()
 
     if (op == 1)
     {
-      ordenaPont(pontuacao, dados, tamanhos, cursosEPesos);
-      /*for (int i = 0; i < tamanhos.max04; i++) {
-        printf("%d %.3f\n", pontuacao[i].inscricao, pontuacao[i].notaFinal);
+
+      criarArquivoSaida01(pontuacao, cursosEPesos, cursosEVagas, tamanhos);
+      criarListaAprovados(pontuacao, cursosEPesos, cursosEVagas, dados,
+                          tamanhos, aprovados);
+      /*for (int i = 0; i < tamanhos.max06; i++) {
+        printf("%d %s %d\n", aprovados[i].inscricao, aprovados[i].nome,
+               aprovados[i].codigoCurso);
       }*/
     }
 
@@ -96,6 +107,16 @@ int main()
     }
     if (op == 3)
     {
+      if (!aprovados[0].classificacao)
+      {
+        criarListaAprovados(pontuacao, cursosEPesos, cursosEVagas, dados,
+                            tamanhos, aprovados);
+        criarArquivo02(pontuacao, cursosEPesos, dados, tamanhos, aprovados);
+      }
+      else
+      {
+        criarArquivo02(pontuacao, cursosEPesos, dados, tamanhos, aprovados);
+      }
     }
 
     if (op == 4)
